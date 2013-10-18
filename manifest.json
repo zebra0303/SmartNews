@@ -1,0 +1,14 @@
+{
+  "name": "SmartNews",
+  "description": "News app for smart users :)",
+  "version": "0.1",
+  "app": {
+    "background": {
+      "scripts":["./js/main.js"]
+    }
+  },
+  "icons": {
+    "16":  "./icon/icon-16.png", 
+    "128": "./icon/icon-128.png"
+  }
+}
