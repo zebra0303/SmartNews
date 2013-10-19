@@ -1,0 +1,29 @@
+body {
+  font-size: 0.9em;
+  background-color: #000;
+  color: #fff;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Links */
+a:link {
+  text-decoration: none; 
+  color: #94fcfa;
+}  
+a:visited {color: #f9d4f5;}
+a:hover {color: #94fcfa;}
+a:active {color: #94fcfa;}
+
+#listBox {
+  padding: 0;
+  overflow: auto;
+  border: 1px dashed yellow;
+}
+
+#listBox .news {
+  margin: 10px;
+  padding: 10px;
+  line-height: 160%;
+  border: 1px dashed green;
+}

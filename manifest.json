@@ -4,11 +4,13 @@
   "version": "0.1",
   "app": {
     "background": {
-      "scripts":["./js/main.js"]
+      "scripts":["./js/background.js"]
     }
   },
   "icons": {
     "16":  "./icon/icon-16.png", 
     "128": "./icon/icon-128.png"
-  }
+  },
+  "permissions": ["<all_urls>", "storage", "syncFileSystem"],
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCwhGKZ4KMgoHDmBGs+BrYueDkiiPAt7QjHbcxeNs3JBaPah/nNsz8e4E38TeEKNyHg+0DoVQlV6gvmuXy/bAbpCBSk3/y+/J5TFCjSgVLhm7nQPeE3RIR2/kVZIaY1YIabxqdC4N0RmAef+EBR+WB4RqFsV78TpzgpNqDinkhfPwIDAQAB"
 }
