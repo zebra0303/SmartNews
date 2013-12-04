@@ -3,25 +3,39 @@
   <head>
     <meta charset="utf-8">
     <title>::: Smart News :::</title>
+    <link rel="stylesheet" href="./css/jquery.mobile-1.3.2.min.css">
     <link rel="stylesheet" href="./css/main.css">
   </head>
   <body>
-    <header>
-      <nav>
-        <ul>
-          <li id='menuNews'>News</li>
-          <li>Twitter</li>
-          <li>Youtube</li>
+
+    <div data-role="page" id="list_page" data-theme="a">
+      <!-- header -->
+      <header data-role="header" data-position="fixed" data-mini="true">
+        <div data-role="navbar"  data-inline="true" data-iconpos="left" data-mini="true">
+          <ul>
+            <li><a href="a.html" class="ui-btn-active">News</a></li>
+            <li><a href="b.html">Tweets</a></li>
+            <li><a href="b.html">Youtube</a></li>
+          </ul>
+        </div>
+      </header>
+      <!-- // header -->
+
+      <section data-role="content">
+        <ul id='listBox' data-role="listview">                          
         </ul>
-      </nav>
-      <div id="add">
-        <a href=./keyword_list.html>manage keyword</a>
-      </div>
-    </header>
-    <div id="listBox"></div>
-    <footer>
-      :) footer 
-    </footer>
+      </section>
+
+      <!-- footer -->
+      <footer data-role="footer" data-position="fixed" data-mini="true">
+        <h4>Smart News</h4>
+        <a href="index.html" data-icon="gear" class="ui-btn-right" data-mini="true">Options</a>
+      </footer> 
+      <!-- // footer -->    
+    </div>
+
+    <script src="./js/jquery-1.10.2.min.js"></script>
+    <script src="./js/jquery.mobile-1.3.2.min.js"></script>    
     <script src="./js/lib.js"></script>
     <script src="./js/main.js"></script>
   </body>

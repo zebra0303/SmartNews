@@ -4,33 +4,34 @@ var Lib = Lib || {},
 debug = Lib.debug("debug"); // product | debug
 
 Lib.domready(function() {
-  var listBox = $('#listBox');
-  listBox.style.height = window.innerHeight + "px";
+  var listBox = $('#listBox'),
+  resizeListBox = function resizeListBox() {
+    var listHeight = $( window ).height() - $('header').height() - $('footer').height() - 3;
+    listBox.height(listHeight);
+  };
 
+  resizeListBox();
   Lib.getConf(function (config) {
     var i, len=config.keywords.length;
     for(i=0; i<len; i++) {
       fetchNews(i, config);
     }
-
-    //add event listners
-    $('#menuNews').addEventListener('click', function() {
-      listBox.innerHTML = "";
-      for(i=0; i<len; i++) {
-        fetchNews(i, config);
-      }
-      debug.log('callback - reload ');
-    });
   });
 
+  $(window).resize(function() {
+    resizeListBox();
+    // save width & height
+  });
+
+
   function sortAdd(node, id) {
-    var arrNode = $('#listBox div.news'),
+    var arrNode = $('#listBox li'),
     i, len=arrNode.length, chkNode,
     isAdded = false;
-    for(i=len-1; i>=0; i--) {
+    for(i=0; i<len; i++) {
       chkNode = arrNode[i];
-      if(chkNode.dataset.datetime > node.dataset.datetime) {
-        listBox.insertBefore(node, chkNode.nextSibling);
+      if($(chkNode).data('datetime') < $(node).data('datetime')) {
+        $(node).insertBefore($(chkNode));
         isAdded = true;
         break;
       }
@@ -38,10 +39,10 @@ Lib.domready(function() {
 
     if(isAdded === false) {
       if(len > 0) {
-        listBox.insertBefore(node, arrNode[0]);
+        $(node).insertAfter($(arrNode.last()))
       }
       else {
-        listBox.appendChild(node);
+        listBox.append($(node));
       }
     }
   }
@@ -53,49 +54,57 @@ Lib.domready(function() {
     xhr = Lib.xhr("GET", apiUrl, function(req) {
       var json = JSON.parse(req.responseText),
       entries = json.responseData.feed.entries,
-      divNews, idx, title, link, desc, date, datetime, pubDate, txtDate, thumbnail, regExp, arrImg, imgUrl;
+      divNews, divBtnInner, divBtnTxt, divSpan, idx, title, txtTitle, link, desc, date, datetime, pubDate, txtDate, thumbnail, regExp, arrImg, imgUrl;
 
       for(idx in entries) {
-        divNews = document.createElement("div");
+        divNews = $('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-a"></li>');
+        
+        divBtnInner = $('<article class="ui-btn-inner ui-li"></article>');
+        divBtnTxt = $('<div class="ui-btn-text"></div>');
+        divSpan = $('<span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>');
+
         date = new Date(entries[idx].publishedDate);
         datetime = date.getTime();
-        divNews.dataset.datetime = datetime;
-        divNews.className = "news";
+        divNews[0].dataset.datetime = datetime;
 
-        pubDate = document.createElement("time");
+        pubDate = $('<p class="ui-li-aside ui-li-desc"></p>');
         txtDate = document.createTextNode(date.toLocaleString());
-        pubDate.appendChild(txtDate);
+        pubDate.append(txtDate);
 
-        title = document.createTextNode(entries[idx].title);
-        link = document.createElement("a");
-        link.setAttribute('href', entries[idx].link);
-        link.setAttribute('target', "_new");
-        link.appendChild(title);
+        title = $('<h3 class="ui-li-heading"></h3>');
+        txtTitle = document.createTextNode(entries[idx].title);
+        title.append(txtTitle);
 
-        desc = document.createElement("summary");
-        desc.innerHTML = entries[idx].contentSnippet;
-        
-        divNews.appendChild(link);
-        divNews.appendChild(pubDate);
-        divNews.appendChild(desc);
-        divNews.appendChild(document.createElement("br"));
-        sortAdd(divNews);
+        link = $('<a href="' + entries[idx].link + '" class="ui-link-inherit" target=_new></a>');
 
+        desc = $('<p class="ui-li-desc"></p>');
+        desc.html(entries[idx].contentSnippet);
         // get thumbnail image
         regExp = /<img src="([^"]+)"/g;
         arrImg = regExp.exec(entries[idx].content);
         if(arrImg !== null && arrImg.length == 2) { 
           imgUrl = 'http:' + arrImg[1];
-          thumbnail = document.createElement("img");  
-          thumbnail.style.display = 'inline';
-          thumbnail.setAttribute('id', 'thumbnail' + kidx + idx);
+          thumbnail = $('<img src="./img/blank.png" class="ui-li-thumb">');
+          thumbnail.attr('id', 'thumbnail' + kidx + idx);
           Lib.loadImage(imgUrl, '#thumbnail'  + kidx + idx, function(tid, blob_uri, requested_uri) {
-            $(tid).setAttribute('src', blob_uri);
+            $(tid).parents('li.ui-li').addClass('ui-li-has-thumb');
+            $(tid).attr('src', blob_uri);
           });
-          divNews.appendChild(document.createElement("br"));
-          divNews.appendChild(thumbnail);
+          link.append(thumbnail);
         }
+
+        link.append(pubDate);
+        link.append(title);
+        link.append(desc);
+        divBtnTxt.append(link);
+        divBtnInner.append(divBtnTxt);
+        divBtnInner.append(divSpan);
+        divNews.append(divBtnInner);
+
+        sortAdd(divNews);
       }
+      listBox.children().first().addClass('ui-first-child');
+      listBox.children().last().addClass('ui-lasts-child');
     });
 
     xhr.send(null);
