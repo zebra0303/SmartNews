@@ -3,7 +3,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
   cfgKey = "snWinConf";
   chrome.storage.local.get(cfgKey, function(data) {
     winBounds = data[cfgKey];
-    if(typeof winBounds.left == "undefined") {
+    if(typeof winBounds == "undefined") {
       winBounds = {
         width: 600,
         height: 650,

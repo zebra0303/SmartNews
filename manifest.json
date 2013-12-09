@@ -1,6 +1,6 @@
 {
   "name": "SmartNews",
-  "description": "News app for smart users :)",
+  "description": "Show the news I want to see :)",
   "version": "0.1",
   "app": {
     "background": {

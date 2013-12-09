@@ -36,10 +36,10 @@ $(document).ready(function() {
     var arrNode = $('#listBox li'),
     i, len=arrNode.length, chkNode,
     isAdded = false;
-    for(i=0; i<len; i++) {
+    for(i=len; i>=0; i--) {
       chkNode = arrNode[i];
-      if($(chkNode).data('datetime') < $(node).data('datetime')) {
-        $(node).insertBefore($(chkNode));
+      if($(chkNode).data('datetime') > $(node).data('datetime')) {
+        $(node).insertAfter($(chkNode));
         isAdded = true;
         break;
       }
@@ -47,7 +47,7 @@ $(document).ready(function() {
 
     if(isAdded === false) {
       if(len > 0) {
-        $(node).insertAfter($(arrNode.last()))
+        $(node).insertBefore($(arrNode.first()))
       }
       else {
         listBox.append($(node));
@@ -57,7 +57,7 @@ $(document).ready(function() {
 
   function fetchNews(kidx) {     
     var keyword = gConf.keywords[kidx], 
-    rssUrl = "http://news.google.com/news?hl=" + gConf.langCode + "&newwindow=1&safe=off&q=" + encodeURI(keyword) + "&um=1&ie=UTF-8&output=rss",
+    rssUrl = "http://news.google.com/news?hl=" + gConf.langCode + "&newwindow=1&safe=on&q=" + encodeURI(keyword) + "&um=1&ie=UTF-8&output=rss",
     apiUrl = "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + gConf.listCnt + "&q=" + encodeURIComponent(rssUrl),
     xhr = Lib.xhr("GET", apiUrl, function(req) {
       var json = JSON.parse(req.responseText),
