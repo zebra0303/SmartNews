@@ -7,33 +7,75 @@
     <link rel="stylesheet" href="./css/main.css">
   </head>
   <body>
-
+    
+    <!-- page : news list -->
     <div data-role="page" id="list_page" data-theme="a">
       <!-- header -->
       <header data-role="header" data-position="fixed" data-mini="true">
         <div data-role="navbar"  data-inline="true" data-iconpos="left" data-mini="true">
           <ul>
-            <li><a href="a.html" class="ui-btn-active">News</a></li>
-            <li><a href="b.html">Tweets</a></li>
-            <li><a href="b.html">Youtube</a></li>
+            <li><a href="#list_page" id="menu_news" class="ui-btn-active">News</a></li>
+            <li><a href="#list_page" id="menu_tweets">Tweets</a></li>
+            <li><a href="#list_page" id="menu_youtube">Youtube</a></li>
           </ul>
         </div>
       </header>
       <!-- // header -->
 
+      <!-- section -->
       <section data-role="content">
         <ul id='listBox' data-role="listview">                          
         </ul>
       </section>
+      <!-- // section -->
 
       <!-- footer -->
       <footer data-role="footer" data-position="fixed" data-mini="true">
         <h4>Smart News</h4>
-        <a href="index.html" data-icon="gear" class="ui-btn-right" data-mini="true">Options</a>
+        <a href="#options" id='link_options' data-icon="gear" data-rel="dialog" data-transition="pop" data-close-btn="none" data-role="button" class="ui-btn-right" data-mini="true">Options</a>
       </footer> 
       <!-- // footer -->    
     </div>
+    <!-- // page : news list -->
 
+
+
+    <!-- page : news list -->
+    <div data-role="page" id="options" data-theme="a"  data-close-btn="none">
+      <!-- header -->
+      <header data-role="header" data-position="fixed" data-mini="true">
+        <h3>Options</h3>
+      </header>
+      <!-- // header -->
+
+      <!-- section -->
+      <section data-role="content">
+        <div id="lang_picker" data-role="fieldcontain">
+          <label for="select-choice-1" class="select">Language:</label>
+        </div>
+        
+        <ul id='keyword_list' data-role="listview"> 
+        </ul>
+      </section>
+      <!-- // section -->
+
+      <!-- footer -->
+      <footer data-role="footer" data-position="fixed">
+        <fieldset class="ui-grid-a">
+          <div class="ui-block-a">
+            <a data-role="button" id='btn_add_keyword' data-icon="add" data-inline="true" data-mini="true">Add Keyword</a>
+          </div>
+          <div class="ui-block-b">
+            <div data-role="controlgroup" class="ui-btn-right" data-type="horizontal">
+              <a href="#list_page" data-role="button" id='btn_cansel' data-icon="delete" data-mini="true">Cansel</a>
+              <a data-role="button" id='btn_save' data-icon="check"  data-mini="true">Save</a>
+            </div>
+          </div>
+        </fieldset>
+      </footer> 
+      <!-- // footer -->    
+    </div>
+    <!-- // page : news list -->
     <script src="./js/jquery-1.10.2.min.js"></script>
     <script src="./js/jquery.mobile-1.3.2.min.js"></script>    
     <script src="./js/lib.js"></script>

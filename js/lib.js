@@ -1,11 +1,5 @@
 "use strict";
-/*
-function $(qry) {
-  var arrNode = document.querySelectorAll(qry);
 
-  return (arrNode.length === 1) ? arrNode[0] : arrNode;
-}
-*/
 var Lib = (function () {
   var _debug = {
     start : 0,
@@ -44,31 +38,58 @@ var Lib = (function () {
     xhr.open(method, url, true);
     return xhr;
   },
-  _getData = function (key, callback) {
-    chrome.storage.sync.get(key, function(data) {
+  _getData = function (type, key, callback) {
+    var storage = (type == "local") ? chrome.storage.local : chrome.storage.sync;
+    storage.get(key, function(data) {
       callback(data[key]);
     });
   },
-  _setData = function(key, val, callback) {
-      var obj = {};
-      obj[key] = val;
-      chrome.storage.sync.set(obj, callback);    
+  _setData = function(type, key, val, callback) {
+    var storage = (type == "local") ? chrome.storage.local : chrome.storage.sync,
+    obj = {};
+    obj[key] = val;
+    storage.set(obj, callback);    
   },  
   _getConf = function (callback) {
     var config = {};
-    _getData("snConf", function (data) {
+    _getData("sync", "snConf", function (data) {
       config = data;
 
       if(typeof config.keywords === "undefined" || config.keywords.length === 0) {
           var config= {
+            max_list_cnt: 50,
             keywords: ["ubuntu", "opensource", "happy"]
           };
-          _setData("snConf", config, callback(config));
+          _setData("sync", "snConf", config, callback(config));
       }
       else {
         callback(config);
       } 
     });
+  },
+  _setConf = function (config, callback) {
+    _setData("sync", "snConf", config, callback(config));
+  },  
+  _getWinConf = function(callback) {
+    var config = {};
+    _getData("local", "snWinConf", function (data) {
+      config = data;
+      if(typeof config.keywords === "undefined" || config.keywords.length === 0) {
+          var config= {
+            width: 600,
+            height: 650,
+            screenX: 0,
+            screenY: 0
+          };
+          _setData("local", "snWinConf", config, callback(config));
+      }
+      else {
+        callback(config);
+      } 
+    });
+  },
+  _setWinConf = function(config, callback) {
+    _setData("local", "snWinConf", config, callback(config));
   },
   _loadImage = function (uri, tid, callback) {
     var xhr = new XMLHttpRequest();
@@ -80,48 +101,16 @@ var Lib = (function () {
     xhr.send();
   };
 
-  function _domready(callback) {
-    var isReady = false,
-    document = window.document,
-    chkBody = function () {
-      if(!document.body) {
-        setTimeout(chkBody, 1);
-        return;
-      }
-      if(typeof callback === "function") {
-        callback();  
-      }
-      
-    },
-    domContentLoaded = function() {
-      if(isReady) {  
-        return;
-      }
-
-      document.removeEventListener('DOMContentLoaded', domContentLoaded, false);
-      document.removeEventListener('load', domContentLoaded, false);
-
-      isReady = true;
-      chkBody();
-    };
-
-    if(document.readyState !== "loading") {
-      chkBody();
-    }
-    else {
-      document.addEventListener('DOMContentLoaded', domContentLoaded, false);
-      window.addEventListener('load', domContentLoaded, false);
-    }
-  }
-
   return {
     debug: function (mode) {
       return (mode == "debug") ? _debug : _debug_dummy;
     },
     getConf: _getConf,
+    setConf: _setConf,
+    getWinConf: _getWinConf,
+    setWinConf: _setWinConf,    
     xhr: _xhr,
-    loadImage: _loadImage,
-    domready: _domready
+    loadImage: _loadImage
   };
 
 }());

@@ -1,3 +1,35 @@
 #listBox {
   overflow: auto;
 }
+
+#listBox h3.ui-li-heading {
+  font-size: 14px;
+}
+
+#listBox p.ui-li-aside {
+  width: 100px;
+  margin: .6em 0 .3em 0;
+}
+
+#options section {
+  overflow: auto;
+  height: 330px;
+}
+
+#options #lang_picker.ui-field-contain {
+  margin: -10px 0 20px 0;
+}
+
+#options #keyword_list .ui-block-a {
+  width: 417px;
+}
+
+#options #keyword_list .ui-block-b {
+  padding-left: 5px;
+  width: 10px;
+}
+
+#options footer {
+  padding-bottom: 3px;
+  padding-left: 0;
+}
