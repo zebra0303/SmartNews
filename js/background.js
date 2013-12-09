@@ -1,28 +1,23 @@
 chrome.app.runtime.onLaunched.addListener(function() {
-  var bounds = {}, 
+  var winBounds = {}, 
   cfgKey = "snWinConf";
   chrome.storage.local.get(cfgKey, function(data) {
-    bounds = data[cfgKey];
-    console.log(bounds);
-    if(typeof bounds.width == "undefined" || typeof bounds.height == "undefined" || typeof bounds.left == "undefined" || typeof bounds.top == "undefined") {
-      bounds = {
+    winBounds = data[cfgKey];
+    if(typeof winBounds.left == "undefined") {
+      winBounds = {
         width: 600,
         height: 650,
-        left: 0,
-        top: 0
+        top: 0,
+        left: 0
       };
     }
-
-    chrome.app.window.create('news_list.html', {
-      bounds: {
-        width: bounds.width,
-        height: bounds.height
-      },
+    chrome.app.window.create('newsList.html', {
+      bounds: winBounds,
       minWidth: 300,
       minHeight: 300,
       resizable: true
     }, function(appWindow) {
-      appWindow.setBounds(bounds);
+      appWindow.setBounds(winBounds);
       //save the bounds data when the window close
       appWindow.onClosed.addListener(function() {
         var obj = {};

@@ -3,12 +3,6 @@
 var Lib = Lib || {},
 debug = Lib.debug("debug"); // product | debug
 
-(function() {
-  Lib.getWinConf(function(config) {
-    console.log(config);
-  })
-})();
-
 $(document).ready(function() {
   var listBox = $('#listBox'),
   gConf = {},
@@ -21,7 +15,7 @@ $(document).ready(function() {
   Lib.getConf(function (config) {
     gConf = config;
     loadList();
-  });  
+  });
 
   $(window).resize(function() {
     resizeListBox();
@@ -31,12 +25,7 @@ $(document).ready(function() {
     showSpinner();
     listBox.empty();
     var i, len=gConf.keywords.length;
-    // TODO : implement the max list count in config
-    gConf.max_list_cnt = 50;
-    gConf.hl = 'en';
-    gConf.gl = 'us';
 
-    gConf.list_cnt = Math.ceil(gConf.max_list_cnt/len);
     for(i=0; i<len; i++) {
       fetchNews(i);
     }
@@ -68,8 +57,8 @@ $(document).ready(function() {
 
   function fetchNews(kidx) {     
     var keyword = gConf.keywords[kidx], 
-    rssUrl = "http://news.google.com/news?hl=" + gConf.hl + "&gl=" + gConf.gl + "&newwindow=1&safe=off&q=" + encodeURI(keyword) + "&um=1&ie=UTF-8&output=rss",
-    apiUrl = "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + gConf.list_cnt + "&q=" + encodeURIComponent(rssUrl),
+    rssUrl = "http://news.google.com/news?hl=" + gConf.langCode + "&newwindow=1&safe=off&q=" + encodeURI(keyword) + "&um=1&ie=UTF-8&output=rss",
+    apiUrl = "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + gConf.listCnt + "&q=" + encodeURIComponent(rssUrl),
     xhr = Lib.xhr("GET", apiUrl, function(req) {
       var json = JSON.parse(req.responseText),
       entries = json.responseData.feed.entries,
@@ -149,78 +138,96 @@ $(document).ready(function() {
   }  
 
   // menu events
-  $('#menu_news').click(function() {
+  $('#menuNews').click(function() {
     gConf.selMenu = "news";
     loadList();
   });
-
-  $('#menu_tweets').click(function() {
+  
+  /*
+  $('#menuTweets').click(function() {
     gConf.selMenu = "tweets";
     loadList();
   });
 
-  $('#menu_youtube').click(function() {
+  $('#menuYoutube').click(function() {
     gConf.selMenu = "youtube";
     loadList();
   });
+  */
 
-
-  $('#link_options').click(function() {
-    var i, len=gConf.keywords.length,
-    input_keyword,
-    div_lang_picker = $('#lang_picker'),
-    lang_picker,
+  $('#linkOptions').click(function() {
+    var i, j, len=gConf.keywords.length,
+    inputKeyword,
+    divLangPicker = $('#langPicker'),
+    selLangCode,
     lang_option,
-    keyword_list = $('#keyword_list'),
+    selected,
+    div_cntPicker = $('#cntPicker'),
+    selListCnt,
+    cntOption,
+    keywordList = $('#keywordList'),
     li_keyword = function(keyword) {
       return $('<li class="ui-li ui-li-static ui-btn-up-a ui-last-child"><div class="ui-grid-a"><div class="ui-block-a"><input type="text" name="keyword" data-inline="true" data-mini="true" value="' + keyword +'"></div><div class="ui-block-b"><a data-role="button" data-icon="delete" data-iconpos="notext"></a></div></div></li>');
     };
 
-    if(div_lang_picker.find("select").length == 0) {
-      lang_picker = $('<select name="select-choice-1" id="select-choice-1" data-mini="true"></select>');
+    if(divLangPicker.find("select").length == 0) {
       $.getJSON( "data/lang.json", function(data) {
+        selLangCode = $('<select id="langCode" name="langCode" data-mini="true"></select>');
         $.each(data, function(idx, option) {
-           lang_option = $('<option value="' + option.value + '">' + option.name + '</optoin>'); 
-           lang_picker.append(lang_option);
+           selected = (gConf.langCode == option.value) ? " selected" : "";
+           lang_option = $('<option value="' + option.value + '"' + selected + '>' + option.name + '</optoin>'); 
+           selLangCode.append(lang_option);
         });
+        divLangPicker.append(selLangCode);
+        divLangPicker.trigger('create');
       });
-      div_lang_picker.append(lang_picker);
     }
 
-    if(keyword_list.find("li").length == 0) {
-      for(i=0; i<len; i++) {
-        input_keyword =  li_keyword(gConf.keywords[i]);
-        keyword_list.append(input_keyword);
+    if(div_cntPicker.find("select").length == 0) {
+      selListCnt = $('<select id="listCnt" name="listCnt"  data-mini="true"></select>');
+      for(i=10; i>0; i--) {
+        selected = (gConf.listCnt == i) ? " selected" : "";
+        cntOption = $('<option' + selected + '>' + i + '</optoin>'); 
+        selListCnt.append(cntOption);
       }
-      keyword_list.trigger('create');
+      div_cntPicker.append(selListCnt);
+      div_cntPicker.trigger('create');
+    }
+
+    if(keywordList.find("li").length == 0) {
+      for(j=0; j<len; j++) {
+        inputKeyword =  li_keyword(gConf.keywords[j]);
+        keywordList.append(inputKeyword);
+      }
+      keywordList.trigger('create');
     }
 
     // prevent the event duplication 
     $('#btn_add_keyword').unbind("click");
     $('#btn_add_keyword').click(function() {
-      var keyword_list = $('#keyword_list');
-      keyword_list.find("li.ui-last-child").removeClass('ui-last-child');
-      var input_keyword = li_keyword('');
-      keyword_list.append(input_keyword);
-      var moveScrollHeight = keyword_list[0].scrollHeight;
-      keyword_list.scrollTop(moveScrollHeight);
-      keyword_list.trigger('create');
-      input_keyword.find("input[type=text]").focus();
+      var keywordList = $('#keywordList');
+      keywordList.find("li.ui-last-child").removeClass('ui-last-child');
+      var inputKeyword = li_keyword('');
+      keywordList.append(inputKeyword);
+      var moveScrollHeight = keywordList[0].scrollHeight;
+      keywordList.scrollTop(moveScrollHeight);
+      keywordList.trigger('create');
+      inputKeyword.find("input[type=text]").focus();
 
       // prevent the event duplication 
-      $('#keyword_list .ui-icon-delete').unbind("click");
-      $('#keyword_list .ui-icon-delete').click(function() {
+      $('#keywordList .ui-icon-delete').unbind("click");
+      $('#keywordList .ui-icon-delete').click(function() {
         $(this).trigger("remove_li", [$(this)]);
       });
     });
     
     // prevent the event duplication 
-    $('#keyword_list .ui-icon-delete').unbind("click");
-    $('#keyword_list .ui-icon-delete').click(function() {
+    $('#keywordList .ui-icon-delete').unbind("click");
+    $('#keywordList .ui-icon-delete').click(function() {
         $(this).trigger("remove_li", [$(this)]);
     });
 
-    $('#keyword_list').on("remove_li", function(event, button) {
+    $('#keywordList').on("remove_li", function(event, button) {
         var li = button.parentsUntil($("li")).parent();
         if(li.hasClass('ui-last-child')) {
           li.prev().addClass('ui-last-child');
@@ -231,24 +238,28 @@ $(document).ready(function() {
     // prevent the event duplication 
     $('#btn_save').unbind("click");
     $('#btn_save').click(function() {
-      var keywords = $('input[name=keyword]'),
-      kw_val, arr_kw = [], chk_dup = {};
+      var listCnt = $('select#listCnt').val(),
+      langCode = $('select#langCode').val(),
+      keywords = $('input[name=keyword]'),
+      kwVal, arrKeyword = [], chk_dup = {};
 
       keywords.each(function(idx) {
-        kw_val = $.trim($(this).val());
-        if(kw_val != "" && chk_dup[kw_val] != "") {
-          arr_kw.push(kw_val);
-          chk_dup[kw_val] = "";
+        kwVal = $.trim($(this).val());
+        if(kwVal != "" && chk_dup[kwVal] != "") {
+          arrKeyword.push(kwVal);
+          chk_dup[kwVal] = "";
         }
       });
 
       var config= {
-        keywords: arr_kw
+        listCnt: listCnt,
+        langCode: langCode,
+        keywords: arrKeyword
       };
 
       Lib.setConf(config, function(config) {
         gConf = config;
-        $.mobile.navigate("#list_page");
+        $.mobile.navigate("#listPage");
         loadList();
       });
     }); 

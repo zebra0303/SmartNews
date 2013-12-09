@@ -1,14 +1,24 @@
-#listBox {
+#listPage #listBox {
   overflow: auto;
 }
 
-#listBox h3.ui-li-heading {
+#listPage #listBox h3.ui-li-heading {
   font-size: 14px;
 }
 
-#listBox p.ui-li-aside {
+#listPage #listBox p.ui-li-aside {
   width: 100px;
   margin: .6em 0 .3em 0;
+}
+
+#listPage footer div.ui-block-b {
+  text-align: center;
+}
+
+#listPage footer div.ui-block-b h4{
+  padding: 0;
+  margin: 8px 0 0 0;
+  font-size: 1.47em;
 }
 
 #options section {
@@ -16,15 +26,23 @@
   height: 330px;
 }
 
-#options #lang_picker.ui-field-contain {
+#options div.ui-field-contain {
   margin: -10px 0 20px 0;
 }
 
-#options #keyword_list .ui-block-a {
+#options div.ui-field-contain div.ui-select {
+  width: 50%;
+}
+
+#options div.ui-field-contain label.ui-select {
+  width: 200px;
+}
+
+#options #keywordList .ui-block-a {
   width: 417px;
 }
 
-#options #keyword_list .ui-block-b {
+#options #keywordList .ui-block-b {
   padding-left: 5px;
   width: 10px;
 }

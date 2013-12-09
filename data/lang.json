@@ -53,5 +53,5 @@
 {"name": "TURKISH", "value": "tr"},
 {"name": "UKRAINIAN", "value": "uk"},
 {"name": "VIETNAMESE ", "value": "vi"},
-{"name": "CHINESE (SIMPLIFIED) ", "value": "zh-CN"},
+{"name": "CHINESE (SIMPLIFIED)", "value": "zh-CN"},
 {"name": "CHINESE (TRADITIONAL)", "value": "zh-TW"}]

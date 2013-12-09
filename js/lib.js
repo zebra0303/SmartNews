@@ -57,7 +57,8 @@ var Lib = (function () {
 
       if(typeof config.keywords === "undefined" || config.keywords.length === 0) {
           var config= {
-            max_list_cnt: 50,
+            listCnt: 7,
+            langCode: "en",
             keywords: ["ubuntu", "opensource", "happy"]
           };
           _setData("sync", "snConf", config, callback(config));
@@ -69,28 +70,7 @@ var Lib = (function () {
   },
   _setConf = function (config, callback) {
     _setData("sync", "snConf", config, callback(config));
-  },  
-  _getWinConf = function(callback) {
-    var config = {};
-    _getData("local", "snWinConf", function (data) {
-      config = data;
-      if(typeof config.keywords === "undefined" || config.keywords.length === 0) {
-          var config= {
-            width: 600,
-            height: 650,
-            screenX: 0,
-            screenY: 0
-          };
-          _setData("local", "snWinConf", config, callback(config));
-      }
-      else {
-        callback(config);
-      } 
-    });
-  },
-  _setWinConf = function(config, callback) {
-    _setData("local", "snWinConf", config, callback(config));
-  },
+  }, 
   _loadImage = function (uri, tid, callback) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
@@ -106,9 +86,7 @@ var Lib = (function () {
       return (mode == "debug") ? _debug : _debug_dummy;
     },
     getConf: _getConf,
-    setConf: _setConf,
-    getWinConf: _getWinConf,
-    setWinConf: _setWinConf,    
+    setConf: _setConf, 
     xhr: _xhr,
     loadImage: _loadImage
   };
