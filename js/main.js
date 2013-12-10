@@ -6,6 +6,7 @@ debug = Lib.debug("product"); // product | debug
 $(document).ready(function() {
   var listBox = $('#listBox'),
   gConf = {},
+  chkUniq,
   resizeListBox = function resizeListBox() {
     var listHeight = $( window ).height() - $('header').height() - $('footer').height() - 3;
     listBox.height(listHeight);
@@ -22,6 +23,7 @@ $(document).ready(function() {
   });
  
   function loadList() {
+    chkUniq = {};
     showSpinner();
     listBox.empty();
     var i, len=gConf.keywords.length;
@@ -62,9 +64,16 @@ $(document).ready(function() {
     xhr = Lib.xhr("GET", apiUrl, function(req) {
       var json = JSON.parse(req.responseText),
       entries = json.responseData.feed.entries,
-      divNews, divBtnInner, divBtnTxt, divSpan, idx, title, txtTitle, link, keyInfo, desc, date, datetime, pubDate, txtDate, thumbnail, regExp, arrImg, imgUrl;
+      chkKey, divNews, divBtnInner, divBtnTxt, divSpan, idx, title, txtTitle, link, keyInfo, desc, date, datetime, pubDate, txtDate, thumbnail, regExp, arrImg, imgUrl;
 
       for(idx in entries) {
+        // check duplicate article
+        chkKey = entries[idx].title + entries[idx].publishedDate;
+        if(chkUniq[chkKey] == "") {
+          continue;
+        }
+        chkUniq[chkKey] = "";
+
         divNews = $('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-a"></li>');
         
         divBtnInner = $('<article class="ui-btn-inner ui-li"></article>');

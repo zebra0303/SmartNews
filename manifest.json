@@ -1,8 +1,8 @@
 {
-  "name": "Smart News (Personalized google news service)",
+  "name": "Smart News (Personalized news service)",
   "short_name": "Smart News",
   "description": "Smart News can show the news list what you want to see.",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "app": {
     "background": {
       "scripts":["./js/background.js"]
