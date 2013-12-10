@@ -1,7 +1,7 @@
 "use strict";
 
 var Lib = Lib || {},
-debug = Lib.debug("debug"); // product | debug
+debug = Lib.debug("product"); // product | debug
 
 $(document).ready(function() {
   var listBox = $('#listBox'),

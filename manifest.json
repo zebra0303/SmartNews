@@ -1,7 +1,8 @@
 {
-  "name": "SmartNews",
-  "description": "Show the news list what I am interested in :)",
-  "version": "0.9.1",
+  "name": "Smart News (Personalized google news service)",
+  "short_name": "Smart News",
+  "description": "Smart News can show the news list what you want to see.",
+  "version": "0.9.3",
   "app": {
     "background": {
       "scripts":["./js/background.js"]
