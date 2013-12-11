@@ -215,13 +215,14 @@ $(document).ready(function() {
           maxCnt = cnt;
         } 
       }
-
       var getScore = function (cnt, time) {
-        var powNum = 0.905723664264;
+        var rtnVal,
+        powNum = 0.905723664264,
         //86400000 = 24*60*60*1000
-        var dateGap = (typeof time == "undefined") ? 70 :  ($.now() - time)/86400000;
+        dateGap = (typeof time == "undefined") ? 70 :  ($.now() - time)/86400000;
+        rtnVal = (maxCnt == 0) ? 0 : Math.round(cnt/maxCnt*Math.pow(powNum, dateGap)*100);
 
-        return Math.round(cnt/maxCnt*Math.pow(powNum, dateGap)*100);
+        return rtnVal;
       }
 
       keywords.sort(function(akw, bkw) {
@@ -248,7 +249,7 @@ $(document).ready(function() {
       tbody, rank, tr, stick, stickWidth,
       date, score=0, dateOptions,
       thRank, tdKeyword, tdStick, tdCnt, tdDate, tdScore, 
-      maxCnt, maxScore, maxWidth = 180, percentage;
+      maxScore, maxWidth = 180, percentage;
       if(typeof cntData == "undefined") {
         cntData = {};
       }
@@ -256,14 +257,12 @@ $(document).ready(function() {
       tbody.empty();
       // draw chart
       sData = sortData(cntData);
-      console.log(cntData);
       keywords = sData.keywords;
       len = keywords.length;
       dateOptions = {
           year: "numeric", month: "short",
           day: "numeric", hour: "2-digit", minute: "2-digit"
       };
-      maxCnt = cntData[keywords[0]].cnt;
       maxScore = cntData[keywords[0]].score;
       for(i=0; i<len; i++) {
         kw = keywords[i];
@@ -273,10 +272,10 @@ $(document).ready(function() {
         date = (typeof cntData[kw].time == "undefined") ? '-' : new Date(cntData[kw].time).toLocaleTimeString('en-US', dateOptions);
         // calculate score
         stick = $('<div class="stick"></div>');
-        stickWidth = (maxCnt > 0) ? (score/maxScore)*maxWidth : 0;
+        stickWidth = (maxScore > 0) ? (score/maxScore)*maxWidth : 0;
         stick.css('width', stickWidth + 'px');
         
-        percentage = Math.round((score/maxScore)*10000)/100;
+        percentage = (maxScore > 0) ? Math.round((score/maxScore)*10000)/100 : 0;
         thRank = $('<th class="al-right">' + rank + '</th>');
         tdKeyword = $('<td>' + kw + '</td>');
         tdStick = $('<td></td>');
