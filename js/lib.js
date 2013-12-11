@@ -87,6 +87,8 @@ var Lib = (function () {
     },
     getConf: _getConf,
     setConf: _setConf, 
+    getData: _getData,
+    setData: _setData,
     xhr: _xhr,
     loadImage: _loadImage
   };

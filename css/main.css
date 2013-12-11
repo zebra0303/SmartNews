@@ -1,5 +1,6 @@
 #listPage #listBox {
   overflow: auto;
+  box-sizing: border-box;
 }
 
 #listPage #listBox h3.ui-li-heading {
@@ -7,7 +8,7 @@
 }
 
 #listPage #listBox p.ui-li-aside {
-  width: 100px;
+  width: 70px;
   margin: .6em 0 .3em 0;
 }
 
@@ -23,7 +24,11 @@
 
 #options section {
   overflow: auto;
-  height: 330px;
+  height: 370px;
+}
+
+#options div.ui-dialog-contain {
+  margin: 5% auto 15px;
 }
 
 #options div.ui-field-contain {
@@ -50,4 +55,28 @@
 #options footer {
   padding-bottom: 3px;
   padding-left: 0;
+}
+
+#analysis section {
+  overflow: auto;
+  box-sizing: border-box;
+  height: 0;
+}
+
+#analysis #aData h2 {
+  margin-top: 30%;
+  text-align: center;
+}
+
+#analysis div.stick {
+  color: #fff;
+  background-color: #111;
+  padding: 0 5px;
+  min-width: 18px;
+  font-size: 0.8em;
+  font-weight: 300;
+}
+
+#analysis table .al-right {
+  text-align: right;
 }
