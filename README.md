@@ -7,5 +7,5 @@ Smart news can show the personalized news with your interesting keywords.
 Smart News ...
 * can remember window size and position.
 * can sync keyword data on the google cloud.
-* can show the keyword usage analysis with graph(later). 
+* can show the keyword usage analysis with graph. 
 * more info & source code : https://github.com/LarryKim/SmartNews/wiki
