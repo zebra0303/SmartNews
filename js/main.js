@@ -12,6 +12,7 @@ $(document).ready(function() {
   adjAN = 32,
   gConf = {},
   chkUniq,
+  arrList,
   resizeBox = function (page, box, adjust) {
     // TODO : need to remove adjust - figure out why I should use?
     var heightHeader = page.find('header').height(),
@@ -56,45 +57,34 @@ $(document).ready(function() {
     chkUniq = {};
     showSpinner();
     listBox.empty();
-    var i, len=gConf.keywords.length;
+    arrList = [];
+    var i, len=gConf.keywords.length, isLast;
 
     for(i=0; i<len; i++) {
-      fetchNews(i);
-    }
-    hideSpinner();
-  }
-
-  function sortAdd(node, id) {
-    var arrNode = $('#listBox li'),
-    i, len=arrNode.length, chkNode,
-    isAdded = false;
-    for(i=len; i>=0; i--) {
-      chkNode = arrNode[i];
-      if($(chkNode).data('datetime') > $(node).data('datetime')) {
-        $(node).insertAfter($(chkNode));
-        isAdded = true;
-        break;
-      }
-    }
-
-    if(isAdded === false) {
-      if(len > 0) {
-        $(node).insertBefore($(arrNode.first()))
-      }
-      else {
-        listBox.append($(node));
-      }
+      isLast = (i == len-1) ? true : false;
+      fetchNews(i, isLast);
     }
   }
 
-  function fetchNews(kidx) {     
+  function addSortedList(arrList) {
+    var i, len=arrList.length;
+    arrList.sort(function(ali, bli) {
+      return bli.data('datetime') - ali.data('datetime');
+    });
+
+    for(i=0; i<len; i++) {
+      listBox.append(arrList[i]);
+    }
+  }
+
+  function fetchNews(kidx, isLast) {     
     var keyword = gConf.keywords[kidx], 
     rssUrl = "http://news.google.com/news?hl=" + gConf.langCode + "&newwindow=1&safe=on&q=" + encodeURI(keyword) + "&um=1&ie=UTF-8&output=rss",
     apiUrl = "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + gConf.listCnt + "&q=" + encodeURIComponent(rssUrl),
     xhr = Lib.xhr("GET", apiUrl, function(req) {
       var json = JSON.parse(req.responseText),
       entries = json.responseData.feed.entries,
-      chkKey, divNews, divBtnInner, divBtnTxt, divSpan, idx, title, txtTitle, link, keyInfo, desc, date, datetime, pubDate, txtDate, thumbnail, regExp, arrImg, imgUrl;
+      chkKey, divNews, divBtnInner, divBtnTxt, divSpan, idx, title, txtTitle, link, keyInfo, desc, date, datetime, pubDate, txtDate, thumbnail, regExp, arrImg, imgUrl, rdLink;
 
       for(idx in entries) {
         // check duplicate article
@@ -122,8 +112,8 @@ $(document).ready(function() {
         txtTitle = document.createTextNode(entries[idx].title);
         title.append(txtTitle);
         title.attr('title', entries[idx].title + " [keyword : " + keyword + "]");
-
-        link = $('<a href="' + entries[idx].link + '" class="ui-link-inherit" target=_new></a>');
+        rdLink = entries[idx].link.replace(/^http:\/\/(news.+)&url=/, 'http://tucan.cafe24.com/snews/rd.php?keyword=' + encodeURI(keyword) + '&url=');
+        link = $('<a href="' + rdLink + '" class="ui-link-inherit" target=_new></a>');
 
         desc = $('<p class="ui-li-desc"><strong></strong></p>');
         desc.html(entries[idx].contentSnippet);
@@ -153,7 +143,8 @@ $(document).ready(function() {
         divBtnInner.append(divSpan);
         divNews.append(divBtnInner);
 
-        sortAdd(divNews);
+        listBox.append(divNews);
+        arrList.push(divNews);
 
         // add click count for analysis
         link.unbind("click");
@@ -174,6 +165,10 @@ $(document).ready(function() {
       }
       listBox.children().first().addClass('ui-first-child');
       listBox.children().last().addClass('ui-lasts-child');
+      if(isLast == true) {
+        addSortedList(arrList);
+        hideSpinner();
+      }
     });
 
     xhr.send(null);
@@ -249,7 +244,7 @@ $(document).ready(function() {
       tbody, rank, tr, stick, stickWidth,
       date, score=0, dateOptions,
       thRank, tdKeyword, tdStick, tdCnt, tdDate, tdScore, 
-      maxScore, maxWidth = 180, percentage;
+      totalScore = 0, maxScore, maxWidth = 180, percentage;
       if(typeof cntData == "undefined") {
         cntData = {};
       }
@@ -263,6 +258,11 @@ $(document).ready(function() {
           year: "numeric", month: "short",
           day: "numeric", hour: "2-digit", minute: "2-digit"
       };
+      // get totalScore
+      for(i=0; i<len; i++) {
+        kw = keywords[i];
+        totalScore += cntData[kw].score;
+      }
       maxScore = cntData[keywords[0]].score;
       for(i=0; i<len; i++) {
         kw = keywords[i];
@@ -275,7 +275,7 @@ $(document).ready(function() {
         stickWidth = (maxScore > 0) ? (score/maxScore)*maxWidth : 0;
         stick.css('width', stickWidth + 'px');
         
-        percentage = (maxScore > 0) ? Math.round((score/maxScore)*10000)/100 : 0;
+        percentage = (totalScore > 0) ? Math.round((score/totalScore)*10000)/100 : 0;
         thRank = $('<th class="al-right">' + rank + '</th>');
         tdKeyword = $('<td>' + kw + '</td>');
         tdStick = $('<td></td>');

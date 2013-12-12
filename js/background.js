@@ -18,6 +18,10 @@ chrome.app.runtime.onLaunched.addListener(function() {
       resizable: true
     }, function(appWindow) {
       appWindow.setBounds(winBounds);
+      if(typeof appWindow.setAlwaysOnTop == "function") {
+        appWindow.setAlwaysOnTop(true);
+      }
+      
       //save the bounds data when the window close
       appWindow.onClosed.addListener(function() {
         var obj = {};
