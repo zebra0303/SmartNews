@@ -1,3 +1,7 @@
+body {
+  background-color: #000;
+}
+
 #listPage #listBox {
   overflow: auto;
   box-sizing: border-box;

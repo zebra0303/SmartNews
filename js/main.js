@@ -12,7 +12,6 @@ $(document).ready(function() {
   adjAN = 32,
   gConf = {},
   chkUniq,
-  arrList,
   resizeBox = function (page, box, adjust) {
     // TODO : need to remove adjust - figure out why I should use?
     var heightHeader = page.find('header').height(),
@@ -57,7 +56,6 @@ $(document).ready(function() {
     chkUniq = {};
     showSpinner();
     listBox.empty();
-    arrList = [];
     var i, len=gConf.keywords.length, isLast;
 
     for(i=0; i<len; i++) {
@@ -65,15 +63,27 @@ $(document).ready(function() {
       fetchNews(i, isLast);
     }
   }
+ 
+  function sortAdd(node, id) {
+    var arrNode = $('#listBox li'),
+    i, len=arrNode.length, chkNode,
+    isAdded = false;
+    for(i=len; i>=0; i--) {
+      chkNode = arrNode[i];
+      if($(chkNode).data('datetime') > $(node).data('datetime')) {
+        $(node).insertAfter($(chkNode));
+        isAdded = true;
+        break;
+      }
+    }
 
-  function addSortedList(arrList) {
-    var i, len=arrList.length;
-    arrList.sort(function(ali, bli) {
-      return bli.data('datetime') - ali.data('datetime');
-    });
-
-    for(i=0; i<len; i++) {
-      listBox.append(arrList[i]);
+    if(isAdded === false) {
+      if(len > 0) {
+        $(node).insertBefore($(arrNode.first()))
+      }
+      else {
+        listBox.append($(node));
+      }
     }
   }
 
@@ -142,9 +152,7 @@ $(document).ready(function() {
         divBtnInner.append(divBtnTxt);
         divBtnInner.append(divSpan);
         divNews.append(divBtnInner);
-
-        listBox.append(divNews);
-        arrList.push(divNews);
+        sortAdd(divNews);
 
         // add click count for analysis
         link.unbind("click");
@@ -163,10 +171,10 @@ $(document).ready(function() {
           });
         });
       }
-      listBox.children().first().addClass('ui-first-child');
-      listBox.children().last().addClass('ui-lasts-child');
+
       if(isLast == true) {
-        addSortedList(arrList);
+        listBox.children().first().addClass('ui-first-child');
+        listBox.children().last().addClass('ui-lasts-child');
         hideSpinner();
       }
     });
