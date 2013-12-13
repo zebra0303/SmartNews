@@ -88,22 +88,21 @@ $(document).ready(function() {
   }
 
   var convUrl = function(url, keyword) {
-    return url.replace(/^http:\/\/(news.+)&url=/, 'http://tucan.cafe24.com/snews/rd.php?keyword=' + encodeURI(keyword) + '&url=');
+    return url.replace(/^http:\/\/(news.+)&(?:amp;)?url=/, 'http://tucan.cafe24.com/snews/rd.php?keyword=' + encodeURI(keyword) + '&url=');
   }
 
   var getRelNews = function(data, keyword) {
-        var relNews = "";
-        var regExp = /<font size="-1"><a href="([^"]+)">((?:(?!<\/a>).)*?)<\/a><font size="-1" color="#6f6f6f">((?:(?!<\/nobr>).)*?)<\/font>/g;
-        var matches, relUrl, relTitle, cpName;
-        while(matches = regExp.exec(data)) {
-          relUrl = convUrl(matches[1], keyword);
-          //var rel_url = matches[1].replace(/^.+&amp;url=/g, "");
-          cpName = matches[3];
-          relTitle = matches[2].replace(/(?:<+[^>]+>|&[^;]+;)/g, "") + " - " + cpName ;
-          relNews += '<a href="' + relUrl + '" class="ui-link-inherit" target=_new title="' + relTitle + '">&bull; ' + relTitle + '</a>\n';
-        }
+    var relNews = "",
+    regExp = /<font size="-1"><a href="([^"]+)">((?:(?!<\/a>).)*?)<\/a><font size="-1" color="#6f6f6f">((?:(?!<\/nobr>).)*?)<\/font>/g,
+    matches, relUrl, relTitle, cpName;
+    while(matches = regExp.exec(data)) {
+      relUrl = convUrl(matches[1], keyword);
+      cpName = matches[3];
+      relTitle = matches[2].replace(/(?:<+[^>]+>|&[^;]+;)/g, "") + " - " + cpName ;
+      relNews += '<a href="' + relUrl + '" class="ui-link-inherit" target=_new title="' + relTitle + '">&bull; ' + relTitle + '</a>\n';
+    }
 
-        return relNews;
+    return relNews;
   }
 
   function fetchNews(kidx, isLast) {     
