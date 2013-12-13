@@ -87,6 +87,25 @@ $(document).ready(function() {
     }
   }
 
+  var convUrl = function(url, keyword) {
+    return url.replace(/^http:\/\/(news.+)&url=/, 'http://tucan.cafe24.com/snews/rd.php?keyword=' + encodeURI(keyword) + '&url=');
+  }
+
+  var getRelNews = function(data, keyword) {
+        var relNews = "";
+        var regExp = /<font size="-1"><a href="([^"]+)">((?:(?!<\/a>).)*?)<\/a><font size="-1" color="#6f6f6f">((?:(?!<\/nobr>).)*?)<\/font>/g;
+        var matches, relUrl, relTitle, cpName;
+        while(matches = regExp.exec(data)) {
+          relUrl = convUrl(matches[1], keyword);
+          //var rel_url = matches[1].replace(/^.+&amp;url=/g, "");
+          cpName = matches[3];
+          relTitle = matches[2].replace(/(?:<+[^>]+>|&[^;]+;)/g, "") + " - " + cpName ;
+          relNews += '<a href="' + relUrl + '" class="ui-link-inherit" target=_new title="' + relTitle + '">&bull; ' + relTitle + '</a>\n';
+        }
+
+        return relNews;
+  }
+
   function fetchNews(kidx, isLast) {     
     var keyword = gConf.keywords[kidx], 
     rssUrl = "http://news.google.com/news?hl=" + gConf.langCode + "&newwindow=1&safe=on&q=" + encodeURI(keyword) + "&um=1&ie=UTF-8&output=rss",
@@ -94,7 +113,7 @@ $(document).ready(function() {
     xhr = Lib.xhr("GET", apiUrl, function(req) {
       var json = JSON.parse(req.responseText),
       entries = json.responseData.feed.entries,
-      chkKey, divNews, divBtnInner, divBtnTxt, divSpan, idx, title, txtTitle, link, keyInfo, desc, date, datetime, pubDate, txtDate, thumbnail, regExp, arrImg, imgUrl, rdLink;
+      chkKey, divNews, divBtnInner, divBtnTxt, divSpan, idx, title, txtTitle, link, keyInfo, desc, relNewsTxt, relNews, date, datetime, pubDate, txtDate, thumbnail, regExp, arrImg, imgUrl, rdLink;
 
       for(idx in entries) {
         // check duplicate article
@@ -121,15 +140,15 @@ $(document).ready(function() {
         title = $('<h3 class="ui-li-heading"></h3>');
         txtTitle = document.createTextNode(entries[idx].title);
         title.append(txtTitle);
-        title.attr('title', entries[idx].title + " [keyword : " + keyword + "]");
-        rdLink = entries[idx].link.replace(/^http:\/\/(news.+)&url=/, 'http://tucan.cafe24.com/snews/rd.php?keyword=' + encodeURI(keyword) + '&url=');
+        //title.attr('title', "[keyword : " + keyword + "]");
+        rdLink = convUrl(entries[idx].link, keyword);
         link = $('<a href="' + rdLink + '" class="ui-link-inherit" target=_new></a>');
+        link.append(title);
 
         desc = $('<p class="ui-li-desc"><strong></strong></p>');
         desc.html(entries[idx].contentSnippet);
+        desc.attr('title', entries[idx].contentSnippet);
 
-        //keyInfo = $('<p class="ui-li-desc"></p>');
-        //keyInfo.html("keyword : " + keyword);
         // get thumbnail image
         regExp = /<img src="([^"]+)"/g;
         arrImg = regExp.exec(entries[idx].content);
@@ -141,14 +160,23 @@ $(document).ready(function() {
             $(tid).parents('li.ui-li').addClass('ui-li-has-thumb');
             $(tid).attr('src', blob_uri);
           });
-          link.append(thumbnail);
+          divBtnTxt.append(thumbnail);
         }
 
-        link.append(pubDate);
-        link.append(title);
-        link.append(desc);
-        //link.append(keyInfo);
+        divBtnTxt.append(pubDate);
         divBtnTxt.append(link);
+        divBtnTxt.append(desc);
+
+        // related news
+        relNewsTxt = getRelNews(entries[idx].content, keyword);
+        if(relNewsTxt != "") {
+          relNews = $('<p class="ui-li-desc">' + relNewsTxt + '</p>');
+          divBtnTxt.append(relNews); 
+        }
+
+        keyInfo = $('<p class="ui-li-desc keyword">[ keyword : ' + keyword + ' ]</p>');
+        divBtnTxt.append(keyInfo);
+        //divBtnTxt.append(link);
         divBtnInner.append(divBtnTxt);
         divBtnInner.append(divSpan);
         divNews.append(divBtnInner);

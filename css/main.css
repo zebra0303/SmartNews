@@ -7,14 +7,61 @@ body {
   box-sizing: border-box;
 }
 
-#listPage #listBox h3.ui-li-heading {
-  font-size: 14px;
+#listPage #listBox li article {
+  padding: 10px 35px 10px 10px;
+  cursor: default;
 }
 
-#listPage #listBox p.ui-li-aside {
-  width: 70px;
-  margin: .6em 0 .3em 0;
+#listPage #listBox li a.ui-link-inherit {
+  padding: 0 40px 0 0;
+  overflow: visible;
+  white-space: nowrap;
+  min-height: 0;
+  color: #fff999;
 }
+
+#listPage #listBox li p.ui-li-desc  a.ui-link-inherit {
+  padding: 0;
+  overflow: hidden;
+  white-space: word-wrap;
+  min-height: 0;
+  color: #fff999;
+}
+
+#listPage #listBox li.ui-li-has-thumb {
+  min-height: 96px;
+}
+
+#listPage #listBox li h3.ui-li-heading {
+  font-size: 0.9em;
+  font-weight: 700;
+  margin-top: 0;
+  white-space: normal;
+  line-height: 1.3em;
+}
+
+#listPage #listBox li p.ui-li-aside {
+  width: 70px;
+  margin: 0 0 .3em 0;
+}
+
+#listPage #listBox li p.ui-li-desc {
+  white-space: normal;
+  font-size: 0.8em;
+  line-height: 1.3em;
+  overflow: visible;
+}
+#listPage #listBox li p.keyword {
+  margin-bottom:0;
+}
+
+#listPage #listBox .ui-li img {
+  position: inherit;
+  float: left;
+  border: 1px solid #1d1d1d;
+  margin: 0 9px 0 0;
+} 
+     
 
 #listPage footer div.ui-block-b {
   text-align: center;

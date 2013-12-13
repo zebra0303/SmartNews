@@ -11,6 +11,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
         left: 0
       };
     }
+
     chrome.app.window.create('newsList.html', {
       bounds: winBounds,
       minWidth: 300,
