@@ -59,7 +59,7 @@ var Lib = (function () {
           var config= {
             listCnt: 7,
             langCode: "en",
-            keywords: ["ubuntu", "opensource", "happy"]
+            keywords: []
           };
           _setData("sync", "snConf", config, callback(config));
       }

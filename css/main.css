@@ -7,8 +7,26 @@ body {
   box-sizing: border-box;
 }
 
+#listPage #listBox div.alert {
+    width: 100%;
+    margin: 30% auto;
+    text-align: center;
+}
+
+#listPage #listBox li {
+  border-top: 1px solid #111;
+}
+
+#listPage #listBox li:hover {
+  border-top: 1px solid #000;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0;
+  background-image: linear-gradient( #555 /*{a-bhover-background-start}*/, #383838);
+}
+
 #listPage #listBox li article {
-  padding: 10px 35px 10px 10px;
+  padding: 10px;
   cursor: default;
 }
 
@@ -51,6 +69,7 @@ body {
   line-height: 1.3em;
   overflow: visible;
 }
+
 #listPage #listBox li p.keyword {
   margin-bottom:0;
 }
@@ -60,8 +79,7 @@ body {
   float: left;
   border: 1px solid #1d1d1d;
   margin: 0 9px 0 0;
-} 
-     
+}
 
 #listPage footer div.ui-block-b {
   text-align: center;
@@ -109,9 +127,15 @@ body {
 }
 
 #analysis section {
-  overflow: auto;
-  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
   height: 0;
+  padding: 10px 0 0 10px;
+}
+
+#analysis section div.tbl-wrapper {
+  width: 561px;
+  margin: 0 auto;
 }
 
 #analysis #aData h2 {

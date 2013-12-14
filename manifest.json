@@ -2,7 +2,7 @@
   "name": "Smart News (Personalized news client)",
   "short_name": "Smart News",
   "description": "Smart News can show the news list what you want to see.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "app": {
     "background": {
       "scripts":["./js/background.js"]

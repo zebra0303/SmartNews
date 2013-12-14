@@ -38,6 +38,9 @@ $(document).ready(function() {
   },
   hideSpinner = function () {
     $.mobile.loading( "hide" );
+  },
+  alertMessage = function(message) {
+    return $('<div class="alert"><h3>' + message + '<h3></div>');
   };  
 
   resizeBox(listPage, listBox, adjLB);
@@ -57,6 +60,12 @@ $(document).ready(function() {
     showSpinner();
     listBox.empty();
     var i, len=gConf.keywords.length, isLast;
+
+    if(len == 0) {
+      var blankMessage = alertMessage("Please click the 'Options' button below to add your keywords.");
+      listBox.append(blankMessage);
+      hideSpinner();
+    }
 
     for(i=0; i<len; i++) {
       isLast = (i == len-1) ? true : false;
@@ -88,7 +97,7 @@ $(document).ready(function() {
   }
 
   var convUrl = function(url, keyword) {
-    return url.replace(/^http:\/\/(news.+)&(?:amp;)?url=/, 'http://tucan.cafe24.com/snews/rd.php?keyword=' + encodeURI(keyword) + '&url=');
+    return url.replace(/^http:\/\/(news.+)&(?:amp;)?url=/, 'http://tucan.cafe24.com/snews/?keyword=' + encodeURI(keyword) + '&url=');
   }
 
   var getRelNews = function(data, keyword) {
@@ -112,7 +121,7 @@ $(document).ready(function() {
     xhr = Lib.xhr("GET", apiUrl, function(req) {
       var json = JSON.parse(req.responseText),
       entries = json.responseData.feed.entries,
-      chkKey, divNews, divBtnInner, divBtnTxt, divSpan, idx, title, txtTitle, link, keyInfo, desc, relNewsTxt, relNews, date, datetime, pubDate, txtDate, thumbnail, regExp, arrImg, imgUrl, rdLink;
+      chkKey, divNews, divBtnInner, divBtnTxt, idx, title, txtTitle, link, keyInfo, desc, relNewsTxt, relNews, date, datetime, pubDate, txtDate, thumbnail, regExp, arrImg, imgUrl, rdLink;
 
       for(idx in entries) {
         // check duplicate article
@@ -122,11 +131,10 @@ $(document).ready(function() {
         }
         chkUniq[chkKey] = "";
 
-        divNews = $('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-a"></li>');
+        divNews = $('<li data-corners="false" data-shadow="false" data-wrapperels="div" class="ui-li ui-btn ui-btn-up-a"></li>');
         
         divBtnInner = $('<article class="ui-btn-inner ui-li"></article>');
         divBtnTxt = $('<div class="ui-btn-text"></div>');
-        divSpan = $('<span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>');
 
         date = new Date(entries[idx].publishedDate);
         datetime = date.getTime();
@@ -146,7 +154,7 @@ $(document).ready(function() {
 
         desc = $('<p class="ui-li-desc"><strong></strong></p>');
         desc.html(entries[idx].contentSnippet);
-        desc.attr('title', entries[idx].contentSnippet);
+        //desc.attr('title', entries[idx].contentSnippet);
 
         // get thumbnail image
         regExp = /<img src="([^"]+)"/g;
@@ -177,7 +185,6 @@ $(document).ready(function() {
         divBtnTxt.append(keyInfo);
         //divBtnTxt.append(link);
         divBtnInner.append(divBtnTxt);
-        divBtnInner.append(divSpan);
         divNews.append(divBtnInner);
         sortAdd(divNews);
 
@@ -231,7 +238,16 @@ $(document).ready(function() {
       var sortedData = {}, 
       keywords = gConf.keywords,
       len = keywords.length,
-      i, cnt, kw, maxCnt = 0;
+      i, cnt, kw, maxCnt = 0,
+      getScore = function (cnt, time) {
+        var rtnVal,
+        powNum = 0.905723664264,
+        //86400000 = 24*60*60*1000
+        dateGap = (typeof time == "undefined") ? 70 :  ($.now() - time)/86400000;
+        rtnVal = (maxCnt == 0) ? 0 : Math.round(cnt/maxCnt*Math.pow(powNum, dateGap)*100);
+
+        return rtnVal;
+      }
 
       // get max cnt
       for(i=0; i<len; i++) {
@@ -245,14 +261,9 @@ $(document).ready(function() {
           maxCnt = cnt;
         } 
       }
-      var getScore = function (cnt, time) {
-        var rtnVal,
-        powNum = 0.905723664264,
-        //86400000 = 24*60*60*1000
-        dateGap = (typeof time == "undefined") ? 70 :  ($.now() - time)/86400000;
-        rtnVal = (maxCnt == 0) ? 0 : Math.round(cnt/maxCnt*Math.pow(powNum, dateGap)*100);
 
-        return rtnVal;
+      if(len == 1) {
+        data[keywords[0]].score = getScore(data[keywords[0]].cnt, data[keywords[0]].time);
       }
 
       keywords.sort(function(akw, bkw) {
@@ -279,7 +290,7 @@ $(document).ready(function() {
       tbody, rank, tr, stick, stickWidth,
       date, score=0, dateOptions,
       thRank, tdKeyword, tdStick, tdCnt, tdDate, tdScore, 
-      totalScore = 0, maxScore, maxWidth = 180, percentage;
+      totalScore = 0, maxScore, maxWidth = 200, percentage;
       if(typeof cntData == "undefined") {
         cntData = {};
       }
@@ -289,47 +300,49 @@ $(document).ready(function() {
       sData = sortData(cntData);
       keywords = sData.keywords;
       len = keywords.length;
-      dateOptions = {
-          year: "numeric", month: "short",
-          day: "numeric", hour: "2-digit", minute: "2-digit"
-      };
-      // get totalScore
-      for(i=0; i<len; i++) {
-        kw = keywords[i];
-        totalScore += cntData[kw].score;
-      }
-      maxScore = cntData[keywords[0]].score;
-      for(i=0; i<len; i++) {
-        kw = keywords[i];
-        rank = i+1;
-        cnt =  cntData[kw].cnt;
-        score = cntData[kw].score;
-        date = (typeof cntData[kw].time == "undefined") ? '-' : new Date(cntData[kw].time).toLocaleTimeString('en-US', dateOptions);
-        // calculate score
-        stick = $('<div class="stick"></div>');
-        stickWidth = (maxScore > 0) ? (score/maxScore)*maxWidth : 0;
-        stick.css('width', stickWidth + 'px');
-        
-        percentage = (totalScore > 0) ? Math.round((score/totalScore)*10000)/100 : 0;
-        thRank = $('<th class="al-right">' + rank + '</th>');
-        tdKeyword = $('<td>' + kw + '</td>');
-        tdStick = $('<td></td>');
-        tdCnt = $('<td class="al-right">' + cnt + '</td>');
-        tdDate = $('<td>' + date + '</td>');
-        tdScore = $('<td class="al-right">' + score + '</td>');
-        stick.append($('<span>' + percentage + '%</span>'));
-        tdStick.append(stick);
+      if(len > 0) {
+        dateOptions = {
+            year: "numeric", month: "short",
+            day: "numeric", hour: "2-digit", hour12: false, minute: "2-digit"
+        };
+        // get totalScore
+        for(i=0; i<len; i++) {
+          kw = keywords[i];
+          totalScore += cntData[kw].score;
+        }
+        maxScore = cntData[keywords[0]].score;
+        for(i=0; i<len; i++) {
+          kw = keywords[i];
+          rank = i+1;
+          cnt =  cntData[kw].cnt;
+          score = cntData[kw].score;
+          date = (typeof cntData[kw].time == "undefined") ? '-' : new Date(cntData[kw].time).toLocaleTimeString('en-US', dateOptions);
+          // calculate score
+          stick = $('<div class="stick"></div>');
+          stickWidth = (maxScore > 0) ? (score/maxScore)*maxWidth : 0;
+          stick.css('width', stickWidth + 'px');
+          
+          percentage = (totalScore > 0) ? Math.round((score/totalScore)*10000)/100 : 0;
+          thRank = $('<th class="al-right">' + rank + '</th>');
+          tdKeyword = $('<td>' + kw + '</td>');
+          tdStick = $('<td></td>');
+          tdCnt = $('<td class="al-right">' + cnt + '</td>');
+          tdDate = $('<td>' + date + '</td>');
+          tdScore = $('<td class="al-right">' + score + '</td>');
+          stick.append($('<span>' + percentage + '%</span>'));
+          tdStick.append(stick);
 
-        tr = $('<tr></tr>');
-        tr.append(thRank);
-        tr.append(tdKeyword);
-        tr.append(tdStick);
-        tr.append(tdCnt);
-        tr.append(tdDate);
-        tr.append(tdScore);
-        tbody.append(tr);
+          tr = $('<tr></tr>');
+          tr.append(thRank);
+          tr.append(tdKeyword);
+          tr.append(tdStick);
+          tr.append(tdCnt);
+          tr.append(tdDate);
+          tr.append(tdScore);
+          tbody.append(tr);
+        }
+        tblSort.trigger('create');
       }
-      tblSort.trigger('create');
       resizeBox(aPage, aSection, adjAN + 43);
     });
 
