@@ -11,6 +11,12 @@ body {
     width: 100%;
     margin: 30% auto;
     text-align: center;
+    line-height: 200%;
+}
+
+#listPage #listBox div.alert a{
+  color: #ffa;
+  text-decoration: none;
 }
 
 #listPage #listBox li {

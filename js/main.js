@@ -59,10 +59,12 @@ $(document).ready(function() {
     chkUniq = {};
     showSpinner();
     listBox.empty();
-    var i, len=gConf.keywords.length, isLast;
+    var i, len=gConf.keywords.length, isLast, firstInfo, blankMessage;
 
     if(len == 0) {
-      var blankMessage = alertMessage("Please click the 'Options' button below to add your keywords.");
+      firstInfo = "Please click the 'Options' button below to add your keywords.<br>";
+      firstInfo += "Refer from <a href='https://github.com/LarryKim/SmartNews/wiki' target=_new>readme & source code.";
+      blankMessage = alertMessage(firstInfo);
       listBox.append(blankMessage);
       hideSpinner();
     }
@@ -425,6 +427,13 @@ $(document).ready(function() {
         $(this).trigger("remove_li", [$(this)]);
       });
     });
+
+    $(document).unbind("keypress");
+    $(document).keypress(function(e) {
+        if(e.which == 13) {
+          $('#btn_save').trigger('click');
+        }
+    });
     
     // prevent the event duplication 
     $('#keywordList .ui-icon-delete').unbind("click");
@@ -443,6 +452,7 @@ $(document).ready(function() {
     // prevent the event duplication 
     $('#btn_save').unbind("click");
     $('#btn_save').click(function() {
+      $(document).unbind("keypress");
       var listCnt = $('select#listCnt').val(),
       langCode = $('select#langCode').val(),
       keywords = $('input[name=keyword]'),
@@ -455,6 +465,11 @@ $(document).ready(function() {
           chk_dup[kwVal] = "";
         }
       });
+
+      $('#btn_cansel').unbind('click');
+      $('#btn_cansel').click(function() {
+        $(document).unbind("keypress");
+      });      
 
       var config= {
         listCnt: listCnt,
