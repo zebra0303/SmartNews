@@ -33,7 +33,7 @@
       <footer data-role="footer" data-position="fixed" data-mini="true">
         <div class="ui-grid-b">
           <div class="ui-block-a">
-            <button id='menuNews' data-icon="refresh" data-role="button" data-inline="true" data-mini="true">Reload</button>
+            <a id='btnReload' data-icon="refresh" data-role="button" data-inline="true" data-mini="true">Reload</a>
           </div>
           <div class="ui-block-b">
             <h4>Smart News</h4>
@@ -61,10 +61,10 @@
       <!-- section -->
       <section data-role="content">
         <div id="langPicker" data-role="fieldcontain">
-          <label for="langCode" class="select">Language to search:</label>
+          <label id="labelSelectLanguage" for="langCode" class="select">Language to search:</label>
         </div>
         <div id="cntPicker" data-role="fieldcontain">
-          <label for="listCnt" class="select">List count for each keyword:</label>
+          <label id="labelListCount" for="listCnt" class="select">List count for each keyword:</label>
         </div>
         <ul id='keywordList' data-role="listview"> 
         </ul>
@@ -75,12 +75,12 @@
       <footer data-role="footer" data-position="fixed">
         <fieldset class="ui-grid-a">
           <div class="ui-block-a">
-            <a data-role="button" id='btn_add_keyword' data-icon="add" data-inline="true" data-mini="true">Add Keyword</a>
+            <a data-role="button" id='btnAddKeyword' data-icon="add" tabindex="1" data-inline="true" data-mini="true">Add Keyword</a>
           </div>
           <div class="ui-block-b">
             <div data-role="controlgroup" class="ui-btn-right" data-type="horizontal">
-              <a href="#listPage" data-role="button" id='btn_cansel' data-icon="delete" data-mini="true">Cansel</a>
-              <a data-role="button" id='btn_save' data-icon="check"  data-mini="true">Save</a>
+              <a href="#listPage" data-role="button" id='btnCancel' tabindex="3" data-icon="delete" data-mini="true">Cancel</a>
+              <a data-role="button" id='btnSave' data-icon="check"  tabindex="2" data-mini="true">Save</a>
             </div>
           </div>
         </fieldset>
@@ -122,7 +122,7 @@
       <!-- footer -->
       <footer data-role="footer" data-position="fixed" data-mini="true">
           <h4>Keywords usage analysis</h4>
-          <a href="#listPage" data-role="button" id="btn_back" class="ui-btn-right" data-icon="back" data-mini="true">Back</a>
+          <a href="#listPage" data-role="button" id="btnBack" class="ui-btn-right" data-icon="back" data-mini="true">Back</a>
       </footer> 
       <!-- // footer -->    
     </div>

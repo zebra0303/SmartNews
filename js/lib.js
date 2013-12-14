@@ -58,7 +58,7 @@ var Lib = (function () {
       if(typeof config === "undefined" || config.keywords.length === 0) {
           var config= {
             listCnt: 7,
-            langCode: "en",
+            langCode: "us",
             keywords: []
           };
           _setData("sync", "snConf", config, callback(config));

@@ -41,12 +41,34 @@ $(document).ready(function() {
   },
   alertMessage = function(message) {
     return $('<div class="alert"><h3>' + message + '<h3></div>');
+  },
+  i18n = function(node, msgId, type) {
+    if(type == "link") {
+      node = node.find('.ui-btn-text')
+    }
+    node.html(chrome.i18n.getMessage(msgId));
   };  
 
   resizeBox(listPage, listBox, adjLB);
 
+  // i18n
+  i18n($('#listPage #linkAnalysis'), 'btn_analysis', 'link');
+  i18n($('#listPage #linkOptions'), 'btn_options', 'link');
+  i18n($('#listPage #btnReload'), 'btn_reload', 'link');
+  // before rendering
+  i18n($('#analysis #btnBack'), 'btn_back'); 
+  i18n($('#options #btnCancel'), 'btn_cancel');
+  i18n($('#options #btnSave'), 'btn_save');
+  i18n($('#options #btnAddKeyword'), 'btn_add_keyword');
+  i18n($('#options #labelSelectLanguage'), 'label_select_language');
+  i18n($('#options #labelListCount'), 'label_list_count');
+
   Lib.getConf(function (config) {
     gConf = config;
+    // for old version
+    if(typeof gConf.langCode == "undefined") {
+      gConf.langCode = "us";
+    }
     loadList();
   });
 
@@ -54,7 +76,7 @@ $(document).ready(function() {
     resizeBox(listPage, listBox, adjLB);
     resizeBox(aPage, aSection, adjAN);
   });
- 
+
   function loadList() {
     chkUniq = {};
     showSpinner();
@@ -62,9 +84,7 @@ $(document).ready(function() {
     var i, len=gConf.keywords.length, isLast, firstInfo, blankMessage;
 
     if(len == 0) {
-      firstInfo = "Please click the 'Options' button below to add your keywords.<br>";
-      firstInfo += "Refer from <a href='https://github.com/LarryKim/SmartNews/wiki' target=_new>readme & source code.";
-      blankMessage = alertMessage(firstInfo);
+      blankMessage = alertMessage(chrome.i18n.getMessage('message_first_info'));
       listBox.append(blankMessage);
       hideSpinner();
     }
@@ -116,10 +136,10 @@ $(document).ready(function() {
     return relNews;
   }
 
-  function fetchNews(kidx, isLast) {     
-    var keyword = gConf.keywords[kidx], 
-    rssUrl = "http://news.google.com/news?hl=" + gConf.langCode + "&newwindow=1&safe=on&q=" + encodeURI(keyword) + "&um=1&ie=UTF-8&output=rss",
-    apiUrl = "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + gConf.listCnt + "&q=" + encodeURIComponent(rssUrl),
+  function fetchNews(kidx, isLast) {    
+    var keyword = gConf.keywords[kidx], rssUrl, apiUrl, xhr;
+    rssUrl = "http://news.google.com/news?ned=" + gConf.langCode + "&pz=1&cf=all&safe=on&ie=UTF-8&output=rss&q=" + encodeURI(keyword);
+    apiUrl = "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + gConf.listCnt + "&q=" + encodeURIComponent(rssUrl);
     xhr = Lib.xhr("GET", apiUrl, function(req) {
       var json = JSON.parse(req.responseText),
       entries = json.responseData.feed.entries,
@@ -226,7 +246,7 @@ $(document).ready(function() {
   }
 
   // menu events
-  $('#menuNews').click(function() {
+  $('#btnReload').click(function() {
     gConf.selMenu = "news";
     loadList();
   });
@@ -356,8 +376,8 @@ $(document).ready(function() {
     });
 
     // prevent the event duplication 
-    $('#btn_back').unbind('click');
-    $('#btn_back').click(function() {
+    $('#btnBack').unbind('click');
+    $('#btnBack').click(function() {
       resizeBox(listPage, listBox, adjLB + 37);
     });
   });
@@ -374,7 +394,7 @@ $(document).ready(function() {
     cntOption,
     keywordList = $('#keywordList'),
     li_keyword = function(keyword) {
-      return $('<li class="ui-li ui-li-static ui-btn-up-a ui-last-child"><div class="ui-grid-a"><div class="ui-block-a"><input type="text" name="keyword" data-inline="true" data-mini="true" value="' + keyword +'"></div><div class="ui-block-b"><a data-role="button" data-icon="delete" data-iconpos="notext"></a></div></div></li>');
+      return $('<li class="ui-li ui-li-static ui-btn-up-a ui-last-child"><div class="ui-grid-a"><div class="ui-block-a"><input type="text" name="keyword" data-inline="true" data-mini="true" value="' + keyword +'"></div><div class="ui-block-b"><a data-role="button" data-icon="delete" data-iconpos="notext" title="' + chrome.i18n.getMessage('delete') + '"></a></div></div></li>');
     };
 
     if(divLangPicker.find("select").length == 0) {
@@ -410,8 +430,8 @@ $(document).ready(function() {
     }
 
     // prevent the event duplication 
-    $('#btn_add_keyword').unbind("click");
-    $('#btn_add_keyword').click(function() {
+    $('#btnAddKeyword').unbind("click");
+    $('#btnAddKeyword').click(function() {
       var keywordList = $('#keywordList');
       keywordList.find("li.ui-last-child").removeClass('ui-last-child');
       var inputKeyword = li_keyword('');
@@ -427,11 +447,12 @@ $(document).ready(function() {
         $(this).trigger("remove_li", [$(this)]);
       });
     });
-
+    
     $(document).unbind("keypress");
     $(document).keypress(function(e) {
         if(e.which == 13) {
-          $('#btn_save').trigger('click');
+          var focused = $(':focus');
+          focused.trigger('click');
         }
     });
     
@@ -450,8 +471,8 @@ $(document).ready(function() {
     });
 
     // prevent the event duplication 
-    $('#btn_save').unbind("click");
-    $('#btn_save').click(function() {
+    $('#btnSave').unbind("click");
+    $('#btnSave').click(function() {
       $(document).unbind("keypress");
       var listCnt = $('select#listCnt').val(),
       langCode = $('select#langCode').val(),
@@ -466,8 +487,8 @@ $(document).ready(function() {
         }
       });
 
-      $('#btn_cansel').unbind('click');
-      $('#btn_cansel').click(function() {
+      $('#btnCancel').unbind('click');
+      $('#btnCancel').click(function() {
         $(document).unbind("keypress");
       });      
 
