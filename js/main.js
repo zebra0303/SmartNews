@@ -121,7 +121,12 @@ $(document).ready(function() {
     xhr = Lib.xhr("GET", apiUrl, function(req) {
       var json = JSON.parse(req.responseText),
       entries = json.responseData.feed.entries,
-      chkKey, divNews, divBtnInner, divBtnTxt, idx, title, txtTitle, link, keyInfo, desc, relNewsTxt, relNews, date, datetime, pubDate, txtDate, thumbnail, regExp, arrImg, imgUrl, rdLink;
+      chkKey, divNews, divBtnInner, divBtnTxt, idx, title, txtTitle, link, keyInfo, desc, relNewsTxt, relNews, 
+      dateOptions = {
+        year: "numeric", month: "short",
+        day: "numeric", hour: "2-digit", minute: "2-digit"
+      },
+      date, datetime, pubDate, txtDate, thumbnail, regExp, arrImg, imgUrl, rdLink;
 
       for(idx in entries) {
         // check duplicate article
@@ -141,13 +146,13 @@ $(document).ready(function() {
         divNews[0].dataset.datetime = datetime;
 
         pubDate = $('<p class="ui-li-aside ui-li-desc"></p>');
-        txtDate = document.createTextNode(date.toLocaleDateString('en-US'));
+        txtDate = document.createTextNode(date.toLocaleDateString('en-US', dateOptions));
         pubDate.append(txtDate);
 
         title = $('<h3 class="ui-li-heading"></h3>');
         txtTitle = document.createTextNode(entries[idx].title);
         title.append(txtTitle);
-        //title.attr('title', "[keyword : " + keyword + "]");
+
         rdLink = convUrl(entries[idx].link, keyword);
         link = $('<a href="' + rdLink + '" class="ui-link-inherit" target=_new></a>');
         link.append(title);
@@ -163,14 +168,15 @@ $(document).ready(function() {
           imgUrl = 'http:' + arrImg[1];
           thumbnail = $('<img src="./img/blank.png" class="ui-li-thumb">');
           thumbnail.attr('id', 'thumbnail' + kidx + idx);
+          thumbnail.css('display', 'none');
           Lib.loadImage(imgUrl, '#thumbnail'  + kidx + idx, function(tid, blob_uri, requested_uri) {
             $(tid).parents('li.ui-li').addClass('ui-li-has-thumb');
             $(tid).attr('src', blob_uri);
+            $(tid).css('display', '');
           });
           divBtnTxt.append(thumbnail);
         }
 
-        divBtnTxt.append(pubDate);
         divBtnTxt.append(link);
         divBtnTxt.append(desc);
 
@@ -181,6 +187,7 @@ $(document).ready(function() {
           divBtnTxt.append(relNews); 
         }
 
+        divBtnTxt.append(pubDate);
         keyInfo = $('<p class="ui-li-desc keyword">[ keyword : ' + keyword + ' ]</p>');
         divBtnTxt.append(keyInfo);
         //divBtnTxt.append(link);

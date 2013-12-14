@@ -22,7 +22,7 @@ body {
   font-weight: bold;
   color: #fff;
   text-shadow: 0;
-  background-image: linear-gradient( #555 /*{a-bhover-background-start}*/, #383838);
+  background-image: linear-gradient( #555, #383838);
 }
 
 #listPage #listBox li article {
@@ -31,23 +31,21 @@ body {
 }
 
 #listPage #listBox li a.ui-link-inherit {
-  padding: 0 40px 0 0;
+  padding: 0 7px 0 0;
   overflow: visible;
   white-space: nowrap;
   min-height: 0;
-  color: #fff999;
+  color: #ffa;
 }
 
 #listPage #listBox li p.ui-li-desc  a.ui-link-inherit {
   padding: 0;
   overflow: hidden;
   white-space: word-wrap;
-  min-height: 0;
-  color: #fff999;
 }
 
 #listPage #listBox li.ui-li-has-thumb {
-  min-height: 96px;
+  min-height: 102px;
 }
 
 #listPage #listBox li h3.ui-li-heading {
@@ -58,16 +56,18 @@ body {
   line-height: 1.3em;
 }
 
-#listPage #listBox li p.ui-li-aside {
-  width: 70px;
-  margin: 0 0 .3em 0;
-}
-
 #listPage #listBox li p.ui-li-desc {
   white-space: normal;
   font-size: 0.8em;
   line-height: 1.3em;
   overflow: visible;
+  padding-right: 7px;
+}
+
+#listPage #listBox li p.ui-li-aside {
+  width: 120px;
+  margin: -5px 0 0  0;
+  font-size: 0.7em;
 }
 
 #listPage #listBox li p.keyword {
