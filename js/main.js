@@ -65,10 +65,6 @@ $(document).ready(function() {
 
   Lib.getConf(function (config) {
     gConf = config;
-    // for old version
-    if(typeof gConf.langCode == "undefined") {
-      gConf.langCode = "us";
-    }
     loadList();
   });
 
@@ -138,7 +134,7 @@ $(document).ready(function() {
 
   function fetchNews(kidx, isLast) {    
     var keyword = gConf.keywords[kidx], rssUrl, apiUrl, xhr;
-    rssUrl = "http://news.google.com/news?ned=" + gConf.langCode + "&pz=1&cf=all&safe=on&ie=UTF-8&output=rss&q=" + encodeURI(keyword);
+    rssUrl = "http://news.google.com/news?ned=" + gConf.langCode + "&output=rss&q=" + encodeURI(keyword);
     apiUrl = "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + gConf.listCnt + "&q=" + encodeURIComponent(rssUrl);
     xhr = Lib.xhr("GET", apiUrl, function(req) {
       var json = JSON.parse(req.responseText),
