@@ -50,10 +50,6 @@ body {
   white-space: word-wrap;
 }
 
-#listPage #listBox li.ui-li-has-thumb {
-  min-height: 102px;
-}
-
 #listPage #listBox li h3.ui-li-heading {
   font-size: 0.9em;
   font-weight: 700;

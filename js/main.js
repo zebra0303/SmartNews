@@ -115,40 +115,39 @@ $(document).ready(function() {
   }
 
   var convUrl = function(url, keyword) {
-    return url.replace(/^http:\/\/(news.+)&(?:amp;)?url=/, 'http://tucan.cafe24.com/snews/?keyword=' + encodeURI(keyword) + '&url=');
+    return 'http://tucan.cafe24.com/snews/?keyword=' + encodeURI(keyword) + '&url=' + url;
   }
 
-  var getRelNews = function(data, keyword) {
-    var relNews = "",
-    regExp = /<font size="-1"><a href="([^"]+)">((?:(?!<\/a>).)*?)<\/a><font size="-1" color="#6f6f6f">((?:(?!<\/nobr>).)*?)<\/font>/g,
-    matches, relUrl, relTitle, cpName;
-    while(matches = regExp.exec(data)) {
-      relUrl = convUrl(matches[1], keyword);
-      cpName = matches[3];
-      relTitle = matches[2].replace(/(?:<+[^>]+>|&[^;]+;)/g, "") + " - " + cpName ;
-      relNews += '<a href="' + relUrl + '" class="ui-link-inherit" target=_new title="' + relTitle + '">&bull; ' + relTitle + '</a>\n';
+  var getRelNews = function(arrRelNews, keyword) {
+    var rtnCode = "", relNews, i, len=arrRelNews.length, url, title;
+
+    for(i=0; i<len; i++) {
+      relNews = arrRelNews[i];
+      url = convUrl(relNews.unescapedUrl, keyword);
+      title = relNews.titleNoFormatting + " - " + relNews.publisher;
+      rtnCode += '<a href="' + url + '" class="ui-link-inherit" target=_new title="' + title + '">&bull; ' + title + '</a>\n';
     }
 
-    return relNews;
+    return rtnCode;
   }
 
   function fetchNews(kidx, isLast) {    
-    var keyword = gConf.keywords[kidx], rssUrl, apiUrl, xhr;
-    rssUrl = "http://news.google.com/news?ned=" + gConf.langCode + "&output=rss&q=" + encodeURI(keyword);
-    apiUrl = "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + gConf.listCnt + "&q=" + encodeURIComponent(rssUrl);
+    var keyword = gConf.keywords[kidx], apiUrl, xhr;
+    apiUrl = "https://ajax.googleapis.com/ajax/services/search/news?v=1.0&rsz=" + gConf.listCnt + "&ned=" + gConf.langCode + "&q=" + encodeURI(keyword);
     xhr = Lib.xhr("GET", apiUrl, function(req) {
       var json = JSON.parse(req.responseText),
-      entries = json.responseData.feed.entries,
-      chkKey, divNews, divBtnInner, divBtnTxt, idx, title, txtTitle, link, keyInfo, desc, relNewsTxt, relNews, 
+      results = json.responseData.results,
+      newsItem, chkKey, divNews, divBtnInner, divBtnTxt, idx, title, link, keyInfo, desc, relNewsTxt, relNews, 
       dateOptions = {
         year: "numeric", month: "short",
         day: "numeric", hour: "2-digit", minute: "2-digit"
       },
-      date, datetime, pubDate, txtDate, thumbnail, regExp, arrImg, imgUrl, rdLink;
+      date, datetime, pubDate, txtDate, thumbnail, tbImg, regExp, arrImg, imgUrl, rdLink;
 
-      for(idx in entries) {
+      for(idx in results) {
+        newsItem = results[idx];
         // check duplicate article
-        chkKey = entries[idx].title + entries[idx].publishedDate;
+        chkKey = newsItem.titleNoFormatting + newsItem.publishedDate;
         if(chkUniq[chkKey] == "") {
           continue;
         }
@@ -159,7 +158,7 @@ $(document).ready(function() {
         divBtnInner = $('<article class="ui-btn-inner ui-li"></article>');
         divBtnTxt = $('<div class="ui-btn-text"></div>');
 
-        date = new Date(entries[idx].publishedDate);
+        date = new Date(newsItem.publishedDate);
         datetime = date.getTime();
         divNews[0].dataset.datetime = datetime;
 
@@ -168,23 +167,21 @@ $(document).ready(function() {
         pubDate.append(txtDate);
 
         title = $('<h3 class="ui-li-heading"></h3>');
-        txtTitle = document.createTextNode(entries[idx].title);
-        title.append(txtTitle);
+        title.html(newsItem.titleNoFormatting + ' - ' + newsItem.publisher);
 
-        rdLink = convUrl(entries[idx].link, keyword);
+        rdLink = convUrl(newsItem.url, keyword);
         link = $('<a href="' + rdLink + '" class="ui-link-inherit" target=_new></a>');
         link.append(title);
 
         desc = $('<p class="ui-li-desc"><strong></strong></p>');
-        desc.html(entries[idx].contentSnippet);
-        //desc.attr('title', entries[idx].contentSnippet);
+        desc.html(newsItem.content);
+        //desc.attr('title', newsItem.contentSnippet);
 
         // get thumbnail image
-        regExp = /<img src="([^"]+)"/g;
-        arrImg = regExp.exec(entries[idx].content);
-        if(arrImg !== null && arrImg.length == 2) { 
-          imgUrl = 'http:' + arrImg[1];
-          thumbnail = $('<img src="./img/blank.png" class="ui-li-thumb">');
+        if(typeof newsItem.image != "undefined") { 
+          tbImg = newsItem.image;
+          imgUrl = tbImg.tbUrl;
+          thumbnail = $('<img src="./img/blank.png" width="' + tbImg.tbWidth + '" height="' + tbImg.tbHeight + '" class="ui-li-thumb">');
           thumbnail.attr('id', 'thumbnail' + kidx + idx);
           thumbnail.css('display', 'none');
           Lib.loadImage(imgUrl, '#thumbnail'  + kidx + idx, function(tid, blob_uri, requested_uri) {
@@ -199,8 +196,8 @@ $(document).ready(function() {
         divBtnTxt.append(desc);
 
         // related news
-        relNewsTxt = getRelNews(entries[idx].content, keyword);
-        if(relNewsTxt != "") {
+        if(typeof newsItem.relatedStories != "undefined") {
+          relNewsTxt = getRelNews(newsItem.relatedStories, keyword);
           relNews = $('<p class="ui-li-desc">' + relNewsTxt + '</p>');
           divBtnTxt.append(relNews); 
         }
@@ -408,7 +405,7 @@ $(document).ready(function() {
 
     if(div_cntPicker.find("select").length == 0) {
       selListCnt = $('<select id="listCnt" name="listCnt"  data-mini="true"></select>');
-      for(i=10; i>0; i--) {
+      for(i=8; i>0; i--) {
         selected = (gConf.listCnt == i) ? " selected" : "";
         cntOption = $('<option' + selected + '>' + i + '</optoin>'); 
         selListCnt.append(cntOption);
