@@ -36,6 +36,12 @@ body {
   cursor: default;
 }
 
+#listPage #listBox li article:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 #listPage #listBox li a.ui-link-inherit {
   padding: 0 7px 0 0;
   overflow: visible;
@@ -66,14 +72,20 @@ body {
   padding-right: 7px;
 }
 
+#listPage #listBox li p.rel-news {
+  padding-top: 3px;
+}
+
 #listPage #listBox li p.ui-li-aside {
   width: 120px;
   margin: -5px 0 0  0;
+  padding-top: 3px;
   font-size: 0.7em;
 }
 
 #listPage #listBox li p.keyword {
   margin-bottom:0;
+  padding-top: 3px;
 }
 
 #listPage #listBox .ui-li img {

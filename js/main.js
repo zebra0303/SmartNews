@@ -198,7 +198,7 @@ $(document).ready(function() {
         // related news
         if(typeof newsItem.relatedStories != "undefined") {
           relNewsTxt = getRelNews(newsItem.relatedStories, keyword);
-          relNews = $('<p class="ui-li-desc">' + relNewsTxt + '</p>');
+          relNews = $('<p class="ui-li-desc rel-news">' + relNewsTxt + '</p>');
           divBtnTxt.append(relNews); 
         }
 
