@@ -119,13 +119,14 @@ $(document).ready(function() {
   }
 
   var getRelNews = function(arrRelNews, keyword) {
-    var rtnCode = "", relNews, i, len=arrRelNews.length, url, title;
+    var rtnCode = "", relNews, i, len=arrRelNews.length, url, title,
+    maxLen = (len > 3) ? 3 : len;
 
-    for(i=0; i<len; i++) {
+    for(i=0; i<maxLen; i++) {
       relNews = arrRelNews[i];
       url = convUrl(relNews.unescapedUrl, keyword);
       title = relNews.titleNoFormatting + " - " + relNews.publisher;
-      rtnCode += '<a href="' + url + '" class="ui-link-inherit" target=_new title="' + title + '">&bull; ' + title + '</a>\n';
+      rtnCode += '<a href="' + url + '" class="ui-link-inherit" target=_new title="' + title + '">• ' + title + '</a>\n';
     }
 
     return rtnCode;

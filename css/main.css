@@ -7,14 +7,14 @@ body {
   box-sizing: border-box;
 }
 
-#listPage #listBox div.alert {
+#listPage #listBox .alert {
     width: 100%;
     margin: 30% auto;
     text-align: center;
     line-height: 200%;
 }
 
-#listPage #listBox div.alert a{
+#listPage #listBox .alert a{
   color: #ffa;
   text-decoration: none;
 }
@@ -28,7 +28,7 @@ body {
   font-weight: bold;
   color: #fff;
   text-shadow: 0;
-  background-image: linear-gradient( #555, #383838);
+  background-image: linear-gradient(#555, #383838);
 }
 
 #listPage #listBox li article {
@@ -42,7 +42,7 @@ body {
   clear: both;
 }
 
-#listPage #listBox li a.ui-link-inherit {
+#listPage #listBox li .ui-link-inherit {
   padding: 0 7px 0 0;
   overflow: visible;
   white-space: nowrap;
@@ -50,13 +50,13 @@ body {
   color: #ffa;
 }
 
-#listPage #listBox li p.ui-li-desc  a.ui-link-inherit {
+#listPage #listBox li .ui-li-desc  .ui-link-inherit {
   padding: 0;
   overflow: hidden;
   white-space: word-wrap;
 }
 
-#listPage #listBox li h3.ui-li-heading {
+#listPage #listBox li .ui-li-heading {
   font-size: 0.9em;
   font-weight: 700;
   margin-top: 0;
@@ -64,7 +64,7 @@ body {
   line-height: 1.3em;
 }
 
-#listPage #listBox li p.ui-li-desc {
+#listPage #listBox li .ui-li-desc {
   white-space: normal;
   font-size: 0.8em;
   line-height: 1.3em;
@@ -72,18 +72,18 @@ body {
   padding-right: 7px;
 }
 
-#listPage #listBox li p.rel-news {
+#listPage #listBox li .rel-news {
   padding-top: 3px;
 }
 
-#listPage #listBox li p.ui-li-aside {
+#listPage #listBox li .ui-li-aside {
   width: 120px;
   margin: -5px 0 0  0;
   padding-top: 3px;
   font-size: 0.7em;
 }
 
-#listPage #listBox li p.keyword {
+#listPage #listBox li .keyword {
   margin-bottom:0;
   padding-top: 3px;
 }
@@ -95,11 +95,11 @@ body {
   margin: 0 9px 0 0;
 }
 
-#listPage footer div.ui-block-b {
+#listPage footer .ui-block-b {
   text-align: center;
 }
 
-#listPage footer div.ui-block-b h4{
+#listPage footer .ui-block-b h4{
   padding: 0;
   margin: 8px 0 0 0;
   font-size: 1.47em;
@@ -110,19 +110,19 @@ body {
   height: 370px;
 }
 
-#options div.ui-dialog-contain {
+#options .ui-dialog-contain {
   margin: 5% auto 15px;
 }
 
-#options div.ui-field-contain {
+#options .ui-field-contain {
   margin: -10px 0 20px 0;
 }
 
-#options div.ui-field-contain div.ui-select {
+#options .ui-field-contain div.ui-select {
   width: 50%;
 }
 
-#options div.ui-field-contain label.ui-select {
+#options .ui-field-contain label.ui-select {
   width: 200px;
 }
 
@@ -147,7 +147,7 @@ body {
   padding: 10px 0 0 10px;
 }
 
-#analysis section div.tbl-wrapper {
+#analysis section .tbl-wrapper {
   width: 561px;
   margin: 0 auto;
 }
@@ -157,7 +157,7 @@ body {
   text-align: center;
 }
 
-#analysis div.stick {
+#analysis .stick {
   color: #fff;
   background-color: #111;
   padding: 0 5px;
