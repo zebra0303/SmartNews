@@ -149,6 +149,7 @@ body {
 
 #analysis section .tbl-wrapper {
   width: 561px;
+  padding: 0;
   margin: 0 auto;
 }
 
@@ -168,4 +169,28 @@ body {
 
 #analysis table .al-right {
   text-align: right;
+}
+
+@media (max-width: 560px) {
+  .ui-responsive tbody th,
+  .ui-responsive tbody td {
+    display: table-cell;
+    margin: 0;
+    text-align: left;
+  }
+
+  #analysis section .tbl-wrapper {
+    width: 100%;
+  }
+
+  .ui-responsive .td-hide,
+  .ui-responsive thead {
+    display: none;
+  }
+}
+
+@media (max-width: 540px) {
+  #options #keyword-list .ui-block-a {
+    width: 85%;
+  }
 }

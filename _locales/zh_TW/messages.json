@@ -1,0 +1,49 @@
+{
+  "app_name": {
+    "message": "Smart News (Personalized news client)",
+    "description": "app  title"
+  },
+  "app_name_short": {
+    "message": "Smart News",
+    "description": "short app  title"
+  },
+  "app_description": {
+    "message": "Smart News can show the news list what you want to see."
+  },
+  "btn_reload": {
+    "message": "Reload"
+  },
+  "btn_analysis" : {
+   "message": "Analysis"
+  },
+  "btn_options" : {
+    "message": "Options"
+  },
+  "btn_reload" : {
+    "message": "Reload"
+  },
+  "btn_back" : {
+    "message": "Back"
+  },
+  "btn_cancel" : {
+    "message": "Cancel"
+  },
+  "btn_save" : {
+    "message": "Save"
+  },
+  "btn_add_keyword" : {
+    "message": "Add Keyword"
+  },    
+  "label_list_count" : {
+    "message": "List count for each keyword:"
+  },
+  "label_select_language" : {
+    "message": "Language to search:"
+  },
+  "message_first_info": {
+    "message" : "Please click the 'Options' button below to add your keywords.<br>Refer from <a href='https://github.com/LarryKim/SmartNews/wiki' target=_new>readme & source code."
+  },
+  "delete" : {
+    "message" : "delete"
+  }               
+}

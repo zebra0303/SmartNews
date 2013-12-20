@@ -346,12 +346,12 @@ $(document).ready(function() {
           stick.css('width', stickWidth + 'px');
           
           percentage = (totalScore > 0) ? Math.round((score/totalScore)*10000)/100 : 0;
-          thRank = $('<th class="al-right">' + rank + '</th>');
+          thRank = $('<th class="al-right td-hide">' + rank + '</th>');
           tdKeyword = $('<td>' + kw + '</td>');
           tdStick = $('<td></td>');
-          tdCnt = $('<td class="al-right">' + cnt + '</td>');
-          tdDate = $('<td>' + date + '</td>');
-          tdScore = $('<td class="al-right">' + score + '</td>');
+          tdCnt = $('<td class="al-right td-hide">' + cnt + '</td>');
+          tdDate = $('<td class="td-hide">' + date + '</td>');
+          tdScore = $('<td class="al-right td-hide">' + score + '</td>');
           stick.append($('<span>' + percentage + '%</span>'));
           tdStick.append(stick);
 
