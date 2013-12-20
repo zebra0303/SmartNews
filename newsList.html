@@ -9,14 +9,14 @@
   <body>
     
     <!-- page : news list -->
-    <div data-role="page" id="listPage" data-theme="a">
+    <div data-role="page" id="list-page" data-theme="a">
       <!-- header -->
       <!--header data-role="header" data-position="fixed" data-mini="true">
         <div data-role="navbar"  data-inline="true" data-iconpos="left" data-mini="true">
           <ul>
-            <li><a href="#listPage" id="menuNews" class="ui-btn-active">News</a></li>
-            <li><a href="#listPage" id="menuTweets">Tweets</a></li>
-            <li><a href="#listPage" id="menuYoutube">Youtube</a></li>
+            <li><a href="#list-page" id="menu-news" class="ui-btn-active">News</a></li>
+            <li><a href="#list-page" id="menu-tweets">Tweets</a></li>
+            <li><a href="#list-page" id="menu-youtube">Youtube</a></li>
           </ul>
         </div>
       </header-->
@@ -24,7 +24,7 @@
 
       <!-- section -->
       <section data-role="content">
-        <ul id='listBox' data-role="listview">                          
+        <ul id="list-box" data-role="listview">                          
         </ul>
       </section>
       <!-- // section -->
@@ -33,15 +33,15 @@
       <footer data-role="footer" data-position="fixed" data-mini="true">
         <div class="ui-grid-b">
           <div class="ui-block-a">
-            <a id='btnReload' data-icon="refresh" data-role="button" data-inline="true" data-mini="true">Reload</a>
+            <a id='btn-reload' data-icon="refresh" data-role="button" data-inline="true" data-mini="true">Reload</a>
           </div>
           <div class="ui-block-b">
             <h4>Smart News</h4>
           </div>
           <div class="ui-block-c">
             <div data-role="controlgroup" class="ui-btn-right" data-type="horizontal">
-              <a href="#analysis" id='linkAnalysis' data-icon="grid"  data-role="button" data-inline="true" data-mini="true">Analysis</a>
-              <a href="#options" id='linkOptions' data-icon="gear" data-rel="dialog" data-transition="pop" data-close-btn="none" data-role="button" data-inline="true" data-mini="true">Options</a>
+              <a href="#analysis" id='link-analysis' data-icon="grid"  data-role="button" data-inline="true" data-mini="true">Analysis</a>
+              <a href="#options" id='link-options' data-icon="gear" data-rel="dialog" data-transition="pop" data-close-btn="none" data-role="button" data-inline="true" data-mini="true">Options</a>
             </div>
           </div>
         </div>
@@ -60,13 +60,13 @@
 
       <!-- section -->
       <section data-role="content">
-        <div id="langPicker" data-role="fieldcontain">
-          <label id="labelSelectLanguage" for="langCode" class="select">Language to search:</label>
+        <div id="lang-picker" data-role="fieldcontain">
+          <label id="label-select-language" for="langCode" class="select">Language to search:</label>
         </div>
-        <div id="cntPicker" data-role="fieldcontain">
-          <label id="labelListCount" for="listCnt" class="select">List count for each keyword:</label>
+        <div id="cnt-picker" data-role="fieldcontain">
+          <label id="label-list-count" for="listCnt" class="select">List count for each keyword:</label>
         </div>
-        <ul id='keywordList' data-role="listview"> 
+        <ul id='keyword-list' data-role="listview"> 
         </ul>
       </section>
       <!-- // section -->
@@ -75,12 +75,12 @@
       <footer data-role="footer" data-position="fixed">
         <fieldset class="ui-grid-a">
           <div class="ui-block-a">
-            <a data-role="button" id='btnAddKeyword' data-icon="add" tabindex="1" data-inline="true" data-mini="true">Add Keyword</a>
+            <a data-role="button" id="btn-add-keyword" data-icon="add" tabindex="1" data-inline="true" data-mini="true">Add Keyword</a>
           </div>
           <div class="ui-block-b">
             <div data-role="controlgroup" class="ui-btn-right" data-type="horizontal">
-              <a href="#listPage" data-role="button" id='btnCancel' tabindex="3" data-icon="delete" data-mini="true">Cancel</a>
-              <a data-role="button" id='btnSave' data-icon="check"  tabindex="2" data-mini="true">Save</a>
+              <a href="#list-page" data-role="button" id="btn-cancel" tabindex="3" data-icon="delete" data-mini="true">Cancel</a>
+              <a data-role="button" id="btn-save" data-icon="check"  tabindex="2" data-mini="true">Save</a>
             </div>
           </div>
         </fieldset>
@@ -89,7 +89,6 @@
     </div>
     <!-- // page : options -->
     
-
     <!-- page : analysis -->
     <div data-role="page" id="analysis" data-theme="a"  data-close-btn="none">
       <!-- header -->
@@ -101,7 +100,7 @@
       <!-- section -->
       <section data-role="content">
         <div class='tbl-wrapper'>
-        <table data-role="table" id="tblSort" data-mode="reflow" class="ui-responsive table-stroke">
+        <table data-role="table" id="tbl-sort" data-mode="reflow" class="ui-responsive table-stroke">
           <thead>
             <tr>
               <th data-priority="1">Rank</th>
@@ -122,7 +121,7 @@
       <!-- footer -->
       <footer data-role="footer" data-position="fixed" data-mini="true">
           <h4>Keywords usage analysis</h4>
-          <a href="#listPage" data-role="button" id="btnBack" class="ui-btn-right" data-icon="back" data-mini="true">Back</a>
+          <a href="#list-page" data-role="button" id="btn-back" class="ui-btn-right" data-icon="back" data-mini="true">Back</a>
       </footer> 
       <!-- // footer -->    
     </div>

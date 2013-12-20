@@ -2,28 +2,28 @@ body {
   background-color: #000;
 }
 
-#listPage #listBox {
+#list-page #list-box {
   overflow: auto;
   box-sizing: border-box;
 }
 
-#listPage #listBox .alert {
+#list-page #list-box .alert {
     width: 100%;
     margin: 30% auto;
     text-align: center;
     line-height: 200%;
 }
 
-#listPage #listBox .alert a{
+#list-page #list-box .alert a{
   color: #ffa;
   text-decoration: none;
 }
 
-#listPage #listBox li {
+#list-page #list-box li {
   border-top: 1px solid #111;
 }
 
-#listPage #listBox li:hover {
+#list-page #list-box li:hover {
   border-top: 1px solid #000;
   font-weight: bold;
   color: #fff;
@@ -31,18 +31,18 @@ body {
   background-image: linear-gradient(#555, #383838);
 }
 
-#listPage #listBox li article {
+#list-page #list-box li article {
   padding: 10px;
   cursor: default;
 }
 
-#listPage #listBox li article:after {
+#list-page #list-box li article:after {
   content: "";
   display: table;
   clear: both;
 }
 
-#listPage #listBox li .ui-link-inherit {
+#list-page #list-box li .ui-link-inherit {
   padding: 0 7px 0 0;
   overflow: visible;
   white-space: nowrap;
@@ -50,13 +50,13 @@ body {
   color: #ffa;
 }
 
-#listPage #listBox li .ui-li-desc  .ui-link-inherit {
+#list-page #list-box li .ui-li-desc  .ui-link-inherit {
   padding: 0;
   overflow: hidden;
   white-space: word-wrap;
 }
 
-#listPage #listBox li .ui-li-heading {
+#list-page #list-box li .ui-li-heading {
   font-size: 0.9em;
   font-weight: 700;
   margin-top: 0;
@@ -64,7 +64,7 @@ body {
   line-height: 1.3em;
 }
 
-#listPage #listBox li .ui-li-desc {
+#list-page #list-box li .ui-li-desc {
   white-space: normal;
   font-size: 0.8em;
   line-height: 1.3em;
@@ -72,34 +72,34 @@ body {
   padding-right: 7px;
 }
 
-#listPage #listBox li .rel-news {
+#list-page #list-box li .rel-news {
   padding-top: 3px;
 }
 
-#listPage #listBox li .ui-li-aside {
+#list-page #list-box li .ui-li-aside {
   width: 120px;
   margin: -5px 0 0  0;
   padding-top: 3px;
   font-size: 0.7em;
 }
 
-#listPage #listBox li .keyword {
+#list-page #list-box li .keyword {
   margin-bottom:0;
   padding-top: 3px;
 }
 
-#listPage #listBox .ui-li img {
+#list-page #list-box .ui-li img {
   position: inherit;
   float: left;
   border: 1px solid #1d1d1d;
   margin: 0 9px 0 0;
 }
 
-#listPage footer .ui-block-b {
+#list-page footer .ui-block-b {
   text-align: center;
 }
 
-#listPage footer .ui-block-b h4{
+#list-page footer .ui-block-b h4{
   padding: 0;
   margin: 8px 0 0 0;
   font-size: 1.47em;
@@ -126,11 +126,11 @@ body {
   width: 200px;
 }
 
-#options #keywordList .ui-block-a {
+#options #keyword-list .ui-block-a {
   width: 417px;
 }
 
-#options #keywordList .ui-block-b {
+#options #keyword-list .ui-block-b {
   padding-left: 5px;
   width: 10px;
 }

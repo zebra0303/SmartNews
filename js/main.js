@@ -4,8 +4,8 @@ var Lib = Lib || {},
 debug = Lib.debug("product"); // product | debug
 
 $(document).ready(function() {
-  var listPage = $('#listPage'), 
-  listBox = listPage.find('#listBox'),
+  var listPage = $('#list-page'), 
+  listBox = listPage.find('#list-box'),
   aPage = $('#analysis'),
   aSection = aPage.find('section'),
   adjLB = 3,
@@ -52,16 +52,16 @@ $(document).ready(function() {
   resizeBox(listPage, listBox, adjLB);
 
   // i18n
-  i18n($('#listPage #linkAnalysis'), 'btn_analysis', 'link');
-  i18n($('#listPage #linkOptions'), 'btn_options', 'link');
-  i18n($('#listPage #btnReload'), 'btn_reload', 'link');
+  i18n($('#list-page #link-analysis'), 'btn_analysis', 'link');
+  i18n($('#list-page #link-options'), 'btn_options', 'link');
+  i18n($('#list-page #btn-reload'), 'btn_reload', 'link');
   // before rendering
-  i18n($('#analysis #btnBack'), 'btn_back'); 
-  i18n($('#options #btnCancel'), 'btn_cancel');
-  i18n($('#options #btnSave'), 'btn_save');
-  i18n($('#options #btnAddKeyword'), 'btn_add_keyword');
-  i18n($('#options #labelSelectLanguage'), 'label_select_language');
-  i18n($('#options #labelListCount'), 'label_list_count');
+  i18n($('#analysis #btn-back'), 'btn_back'); 
+  i18n($('#options #btn-cancel'), 'btn_cancel');
+  i18n($('#options #btn-save'), 'btn_save');
+  i18n($('#options #btn-add-keyword'), 'btn_add_keyword');
+  i18n($('#options #label-select-language'), 'label_select_language');
+  i18n($('#options #label-list-count'), 'label_list_count');
 
   Lib.getConf(function (config) {
     gConf = config;
@@ -92,7 +92,7 @@ $(document).ready(function() {
   }
  
   function sortAdd(node, id) {
-    var arrNode = $('#listBox li'),
+    var arrNode = $('#list-box li'),
     i, len=arrNode.length, chkNode,
     isAdded = false;
     for(i=len; i>=0; i--) {
@@ -240,7 +240,7 @@ $(document).ready(function() {
   }
 
   // menu events
-  $('#btnReload').click(function() {
+  $('#btn-reload').click(function() {
     gConf.selMenu = "news";
     loadList();
   });
@@ -256,7 +256,7 @@ $(document).ready(function() {
     loadList();
   });
   */
-  $('#linkAnalysis').click(function() {
+  $('#link-analysis').click(function() {
     var sortData = function(data) {
       var sortedData = {}, 
       keywords = gConf.keywords,
@@ -309,7 +309,7 @@ $(document).ready(function() {
     // get analysis data
     Lib.getData("sync", "snCnt", function(cntData) {
       var sData, keywords, kw, len, i, cnt, 
-      tblSort = $('#analysis #tblSort'),
+      tblSort = $('#analysis #tbl-sort'),
       tbody, rank, tr, stick, stickWidth,
       date, score=0, dateOptions,
       thRank, tdKeyword, tdStick, tdCnt, tdDate, tdScore, 
@@ -370,23 +370,23 @@ $(document).ready(function() {
     });
 
     // prevent the event duplication 
-    $('#btnBack').unbind('click');
-    $('#btnBack').click(function() {
+    $('#btn-back').unbind('click');
+    $('#btn-back').click(function() {
       resizeBox(listPage, listBox, adjLB + 37);
     });
   });
 
-  $('#linkOptions').click(function() {
+  $('#link-options').click(function() {
     var i, j, len=gConf.keywords.length,
     inputKeyword,
-    divLangPicker = $('#langPicker'),
+    divLangPicker = $('#lang-picker'),
     selLangCode,
     lang_option,
     selected,
-    div_cntPicker = $('#cntPicker'),
+    divCntPicker = $('#cnt-picker'),
     selListCnt,
     cntOption,
-    keywordList = $('#keywordList'),
+    keywordList = $('#keyword-list'),
     li_keyword = function(keyword) {
       return $('<li class="ui-li ui-li-static ui-btn-up-a ui-last-child"><div class="ui-grid-a"><div class="ui-block-a"><input type="text" name="keyword" data-inline="true" data-mini="true" value="' + keyword +'"></div><div class="ui-block-b"><a data-role="button" data-icon="delete" data-iconpos="notext" title="' + chrome.i18n.getMessage('delete') + '"></a></div></div></li>');
     };
@@ -404,15 +404,15 @@ $(document).ready(function() {
       });
     }
 
-    if(div_cntPicker.find("select").length == 0) {
+    if(divCntPicker.find("select").length == 0) {
       selListCnt = $('<select id="listCnt" name="listCnt"  data-mini="true"></select>');
       for(i=8; i>0; i--) {
         selected = (gConf.listCnt == i) ? " selected" : "";
         cntOption = $('<option' + selected + '>' + i + '</optoin>'); 
         selListCnt.append(cntOption);
       }
-      div_cntPicker.append(selListCnt);
-      div_cntPicker.trigger('create');
+      divCntPicker.append(selListCnt);
+      divCntPicker.trigger('create');
     }
 
     if(keywordList.find("li").length == 0) {
@@ -424,9 +424,9 @@ $(document).ready(function() {
     }
 
     // prevent the event duplication 
-    $('#btnAddKeyword').unbind("click");
-    $('#btnAddKeyword').click(function() {
-      var keywordList = $('#keywordList');
+    $('#btn-add-keyword').unbind("click");
+    $('#btn-add-keyword').click(function() {
+      var keywordList = $('#keyword-list');
       keywordList.find("li.ui-last-child").removeClass('ui-last-child');
       var inputKeyword = li_keyword('');
       keywordList.append(inputKeyword);
@@ -436,8 +436,8 @@ $(document).ready(function() {
       inputKeyword.find("input[type=text]").focus();
 
       // prevent the event duplication 
-      $('#keywordList .ui-icon-delete').unbind("click");
-      $('#keywordList .ui-icon-delete').click(function() {
+      $('#keyword-list .ui-icon-delete').unbind("click");
+      $('#keyword-list .ui-icon-delete').click(function() {
         $(this).trigger("remove_li", [$(this)]);
       });
     });
@@ -451,12 +451,12 @@ $(document).ready(function() {
     });
     
     // prevent the event duplication 
-    $('#keywordList .ui-icon-delete').unbind("click");
-    $('#keywordList .ui-icon-delete').click(function() {
+    $('#keyword-list .ui-icon-delete').unbind("click");
+    $('#keyword-list .ui-icon-delete').click(function() {
         $(this).trigger("remove_li", [$(this)]);
     });
 
-    $('#keywordList').on("remove_li", function(event, button) {
+    $('#keyword-list').on("remove_li", function(event, button) {
         var li = button.parentsUntil($("li")).parent();
         if(li.hasClass('ui-last-child')) {
           li.prev().addClass('ui-last-child');
@@ -465,8 +465,8 @@ $(document).ready(function() {
     });
 
     // prevent the event duplication 
-    $('#btnSave').unbind("click");
-    $('#btnSave').click(function() {
+    $('#btn-save').unbind("click");
+    $('#btn-save').click(function() {
       $(document).unbind("keypress");
       var listCnt = $('select#listCnt').val(),
       langCode = $('select#langCode').val(),
@@ -481,8 +481,8 @@ $(document).ready(function() {
         }
       });
 
-      $('#btnCancel').unbind('click');
-      $('#btnCancel').click(function() {
+      $('#btn-cancel').unbind('click');
+      $('#btn-cancel').click(function() {
         $(document).unbind("keypress");
       });      
 
@@ -494,7 +494,7 @@ $(document).ready(function() {
 
       Lib.setConf(config, function(config) {
         gConf = config;
-        $.mobile.navigate("#listPage");
+        $.mobile.navigate("#list-page");
         loadList();
       });
     }); 
