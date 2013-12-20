@@ -137,7 +137,7 @@ $(document).ready(function() {
     apiUrl = "https://ajax.googleapis.com/ajax/services/search/news?v=1.0&rsz=" + gConf.listCnt + "&ned=" + gConf.langCode + "&q=" + encodeURI(keyword);
     xhr = Lib.xhr("GET", apiUrl, function(req) {
       var json = JSON.parse(req.responseText),
-      results = json.responseData.results,
+      results = (json.responseData !== null) ? json.responseData.results : [],
       newsItem, chkKey, divNews, divBtnInner, divBtnTxt, idx, title, link, keyInfo, desc, relNewsTxt, relNews, 
       dateOptions = {
         year: "numeric", month: "short",
