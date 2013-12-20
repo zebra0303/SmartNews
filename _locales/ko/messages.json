@@ -8,42 +8,42 @@
     "description": "short app  title"
   },
   "app_description": {
-	  "message": "개인의 취향에따라 자신만의 관심뉴스를 보여주는 스마트한 뉴스 앱입니다."
+    "message": "개인의 취향에따라 자신만의 관심뉴스를 보여주는 스마트한 뉴스 앱입니다."
   },
   "btn_reload": {
-	  "message": "다시로드"
+    "message": "다시로드"
   },
   "btn_analysis" : {
-	  "message": "분석"
+    "message": "분석"
   },
   "btn_options" : {
-	  "message": "설정"
+    "message": "설정"
   },
   "btn_reload" : {
-	  "message": "새로고침"
+    "message": "새로고침"
   },
   "btn_back" : {
-	  "message": "뒤로"
+    "message": "뒤로"
   },
   "btn_cancel" : {
-	  "message": "취소"
+    "message": "취소"
   },
   "btn_save" : {
-	  "message": "저장"
+    "message": "저장"
   },
   "btn_add_keyword" : {
-	  "message": "키워드 추가"
+    "message": "키워드 추가"
   },  
   "label_list_count" : {
-	  "message": "각 키워드 리스트 수:"
+    "message": "각 키워드 리스트 수:"
   },
   "label_select_language" : {
-	  "message": "검색 언어:"
+    "message": "검색 언어:"
   },
   "message_first_info": {
-	  "message" : "아래 '설정'버튼을 클릭하셔서 키워드를 추가해 주세요.<br>참조 :  <a href='https://github.com/LarryKim/SmartNews/wiki' target=_new>설명서 & 소스코드."
+    "message" : "아래 '설정'버튼을 클릭하셔서 키워드를 추가해 주세요.<br>참조 :  <a href='https://github.com/LarryKim/SmartNews/wiki' target=_new>설명서 & 소스코드."
   },
   "delete" : {
-	  "message" : "삭제"
+    "message" : "삭제"
   }                              
 }
