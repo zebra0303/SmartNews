@@ -13,7 +13,7 @@ $(document).ready(function() {
   gConf = {},
   chkUniq,
   resizeBox = function (page, box, adjust) {
-    // TODO : need to remove adjust - figure out why I should use?
+    // TODO : need to remove the adjust argument - figure out why I should use?
     var heightHeader = page.find('header').height(),
     heightFooter = page.find('footer').height();
 
@@ -115,7 +115,7 @@ $(document).ready(function() {
   }
 
   var convUrl = function(url, keyword) {
-    return 'http://tucan.cafe24.com/snews/?keyword=' + encodeURI(keyword) + '&url=' + url;
+    return 'http://tucan.cafe24.com/snews/?keyword=' + encodeURI(keyword) + '&lang=' + gConf.langCode + '&url=' + url;
   }
 
   var getRelNews = function(arrRelNews, keyword) {
