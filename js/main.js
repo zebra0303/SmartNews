@@ -350,7 +350,7 @@ $(document).ready(function() {
           tdKeyword = $('<td>' + kw + '</td>');
           tdStick = $('<td></td>');
           tdCnt = $('<td class="al-right td-hide">' + cnt + '</td>');
-          tdDate = $('<td class="td-hide">' + date + '</td>');
+          tdDate = $('<td class="td-date td-hide">' + date + '</td>');
           tdScore = $('<td class="al-right td-hide">' + score + '</td>');
           stick.append($('<span>' + percentage + '%</span>'));
           tdStick.append(stick);

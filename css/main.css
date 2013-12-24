@@ -36,7 +36,7 @@ body {
   cursor: default;
 }
 
-#list-page #list-box li article:after {
+#list-page #list-box li article::after {
   content: "";
   display: table;
   clear: both;
@@ -169,6 +169,10 @@ body {
 
 #analysis table .al-right {
   text-align: right;
+}
+
+#analysis table .td-date {
+  white-space:nowrap;
 }
 
 @media (max-width: 560px) {
