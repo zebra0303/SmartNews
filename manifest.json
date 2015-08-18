@@ -2,7 +2,7 @@
   "name": "__MSG_app_name__",
   "short_name": "__MSG_app_name_short__",
   "description": "__MSG_app_description__",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "default_locale": "en",
   "app": {
     "background": {
@@ -10,7 +10,7 @@
     }
   },
   "icons": {
-    "16":  "./icon/icon-16.png", 
+    "16":  "./icon/icon-16.png",
     "128": "./icon/icon-128.png"
   },
   "permissions": ["<all_urls>", "storage", "syncFileSystem"]

@@ -8,18 +8,18 @@ var Lib = (function () {
       return (Date.now) ? Date.now() : new Date().getTime();
     },
     getLoadTime : function() {
-      return this.end - this.start; 
+      return this.end - this.start;
     },
     log: function (msg) {
       console.log(msg);
     }
-  },  
+  },
   _debug_dummy = {
     getChkTime : function () {},
     getLoadTime : function() {},
     log: function (msg) {}
   },
-  _xhr = function (method, url, callback) {   
+  _xhr = function (method, url, callback) {
     var xhr, i, len, ids;
     xhr = new XMLHttpRequest();
 
@@ -29,12 +29,12 @@ var Lib = (function () {
           callback(req);
         }
       };
-      
+
     })(xhr);
 
     if(method === "") {
       method = "GET";
-    } 
+    }
     xhr.open(method, url, true);
     return xhr;
   },
@@ -48,8 +48,8 @@ var Lib = (function () {
     var storage = (type == "local") ? chrome.storage.local : chrome.storage.sync,
     obj = {};
     obj[key] = val;
-    storage.set(obj, callback);    
-  },  
+    storage.set(obj, callback);
+  },
   _getConf = function (callback) {
     var config = {};
     _getData("sync", "snConf", function (data) {
@@ -65,12 +65,12 @@ var Lib = (function () {
       }
       else {
         callback(config);
-      } 
+      }
     });
   },
   _setConf = function (config, callback) {
     _setData("sync", "snConf", config, callback(config));
-  }, 
+  },
   _loadImage = function (uri, tid, callback) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
@@ -86,7 +86,7 @@ var Lib = (function () {
       return (mode == "debug") ? _debug : _debug_dummy;
     },
     getConf: _getConf,
-    setConf: _setConf, 
+    setConf: _setConf,
     getData: _getData,
     setData: _setData,
     xhr: _xhr,

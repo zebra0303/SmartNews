@@ -1,5 +1,5 @@
 chrome.app.runtime.onLaunched.addListener(function() {
-  var winBounds = {}, 
+  var winBounds = {},
   cfgKey = "snWinConf";
   chrome.storage.local.get(cfgKey, function(data) {
     winBounds = data[cfgKey];
@@ -19,25 +19,25 @@ chrome.app.runtime.onLaunched.addListener(function() {
       resizable: true
     }, function(appWindow) {
       appWindow.setBounds(winBounds);
-      if(typeof appWindow.setAlwaysOnTop == "function") {
-        appWindow.setAlwaysOnTop(true);
-      }
-      
+      //if(typeof appWindow.setAlwaysOnTop == "function") {
+        //appWindow.setAlwaysOnTop(true);
+      //}
+
       //save the bounds data when the window close
       appWindow.onClosed.addListener(function() {
         var obj = {};
         obj['snWinConf'] = appWindow.getBounds();
-        chrome.storage.local.set(obj);    
-      });  
+        chrome.storage.local.set(obj);
+      });
     });
   });
 
-}); 
+});
 
 chrome.runtime.onInstalled.addListener(function() { 
   //chrome.storage.local.set(object items, function callback);
 });
 
-chrome.runtime.onSuspend.addListener(function() { 
+chrome.runtime.onSuspend.addListener(function() {
   // Do some simple clean-up tasks.
 });
