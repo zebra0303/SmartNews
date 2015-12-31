@@ -124,7 +124,8 @@ $(document).ready(function() {
 
     for(i=0; i<maxLen; i++) {
       relNews = arrRelNews[i];
-      url = convUrl(relNews.unescapedUrl, keyword);
+      //url = convUrl(relNews.unescapedUrl, keyword);
+      url = relNews.unescapedUrl;
       title = relNews.titleNoFormatting + " - " + relNews.publisher;
       rtnCode += '<a href="' + url + '" class="ui-link-inherit" target=_new title="' + title + '">• ' + title + '</a>\n';
     }

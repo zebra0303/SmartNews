@@ -75,7 +75,7 @@ var Lib = (function () {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
     xhr.onload = function() {
-      callback(tid, window.webkitURL.createObjectURL(xhr.response), uri);
+      callback(tid, window.URL.createObjectURL(xhr.response), uri);
     }
     xhr.open('GET', uri, true);
     xhr.send();
