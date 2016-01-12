@@ -115,7 +115,9 @@ $(document).ready(function() {
   }
 
   var convUrl = function(url, keyword) {
-    return 'http://tucan.cafe24.com/snews/?keyword=' + encodeURI(keyword) + '&lang=' + gConf.langCode + '&url=' + url;
+    //return 'http://tucan.cafe24.com/snews/?keyword=' + encodeURI(keyword) + '&lang=' + gConf.langCode + '&url=' + url;
+    //console.log(url);
+    return url;
   }
 
   var getRelNews = function(arrRelNews, keyword) {
@@ -171,7 +173,9 @@ $(document).ready(function() {
         title = $('<h3 class="ui-li-heading"></h3>');
         title.html(newsItem.titleNoFormatting + ' - ' + newsItem.publisher);
 
-        rdLink = convUrl(newsItem.url, keyword);
+        console.log(newsItem);
+        //rdLink = convUrl(newsItem.url, keyword);
+        rdLink = newsItem.unescapedUrl;
         link = $('<a href="' + rdLink + '" class="ui-link-inherit" target=_new></a>');
         link.append(title);
 
