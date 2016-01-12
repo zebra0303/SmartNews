@@ -173,7 +173,7 @@ $(document).ready(function() {
         title = $('<h3 class="ui-li-heading"></h3>');
         title.html(newsItem.titleNoFormatting + ' - ' + newsItem.publisher);
 
-        console.log(newsItem);
+        //console.log(newsItem);
         //rdLink = convUrl(newsItem.url, keyword);
         rdLink = newsItem.unescapedUrl;
         link = $('<a href="' + rdLink + '" class="ui-link-inherit" target=_new></a>');
